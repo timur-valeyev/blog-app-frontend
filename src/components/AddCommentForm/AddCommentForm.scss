@@ -1,0 +1,20 @@
+.add-comment-form {
+  position: relative;
+  margin: 15px 0;
+}
+
+.comment-input {
+  padding: 15px !important;
+  background-color: #f7f7f7;
+  border: 1px solid rgba(0, 0, 0, .03);
+  border-radius: 10px;
+  cursor: pointer !important;
+
+  &:before, &:after {
+    display: none;
+  }
+}
+
+.send-button {
+  margin-top: 10px !important;
+}

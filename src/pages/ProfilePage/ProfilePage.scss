@@ -1,0 +1,33 @@
+.profile-page {
+  padding: 20px 20px 10px 20px;
+  margin-bottom: 20px;
+
+  &__avatar {
+    display:flex;
+    justify-content: space-between;
+  }
+
+  &__info {
+    margin: 10px 0;
+  }
+}
+.profile-content {
+  display: flex;
+  align-items: flex-start;
+
+  &__posts {
+    display: flex;
+    margin-right: 20px;
+  }
+
+  &__subscribers {
+    padding: 20px;
+    margin-bottom: 20px;
+
+    .subscriber-avatars {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+  }
+}

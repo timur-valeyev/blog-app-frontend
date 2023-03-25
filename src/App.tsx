@@ -1,26 +1,70 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import './App.css'
+import {theme} from './theme'
+import {CssBaseline} from '@mui/material'
+import {MuiThemeProvider} from '@material-ui/core'
+import './styles/globals.scss'
+import {createBrowserRouter, Outlet, RouterProvider} from 'react-router-dom'
+import AddPost from './pages/AddPostPage'
+import Header from './components/Header'
+import Home from './pages/HomePage/HomePage'
+import RatingPage from './pages/RatingPage'
+import ProfilePage from './pages/ProfilePage'
+import NotFoundPage from './pages/NotFoundPage'
+import PostPage from './pages/PostPage'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const Layout = () => {
+    return (
+        <>
+            <Header/>
+            <Outlet/>
+            {/*<Footer />*/}
+        </>
+    )
 }
 
-export default App;
+const router = createBrowserRouter([
+    {
+        path: '/',
+        element: <Layout/>,
+        children: [
+            {
+                path: '/',
+                element: <Home/>
+            },
+            {
+                path: '/posts/:id',
+                element: <PostPage/>
+            },
+            {
+                path: '/write',
+                element: <AddPost/>
+            },
+            {
+                path: '/rating',
+                element: <RatingPage/>
+            },
+            {
+                path: '/profile/:id',
+                element: <ProfilePage/>
+            },
+            {
+                path: '*',
+                element: <NotFoundPage/>
+            }
+        ]
+    }
+])
+
+function App() {
+    return (
+        <>
+            <MuiThemeProvider theme={theme}>
+                <CssBaseline/>
+                <RouterProvider router={router}/>
+            </MuiThemeProvider>
+        </>
+    )
+}
+
+export default App
