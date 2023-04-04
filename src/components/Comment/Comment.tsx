@@ -6,7 +6,7 @@ import styles from './Comment.module.scss'
 
 interface CommentPostProps {
     user: {
-        fullname: string;
+        fullName: string;
         avatarUrl: string;
     };
     text: string;
@@ -32,7 +32,7 @@ const Comment: React.FC<CommentPostProps> = (props) => {
                     src={user.avatarUrl}
                     alt="Avatar"
                 />
-                <b>{user.fullname}</b>
+                <b>{user.fullName}</b>
                 <span>{createdAt}</span>
             </div>
             <Typography className={styles.text}>

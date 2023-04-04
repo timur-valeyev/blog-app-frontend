@@ -5,11 +5,11 @@ import {
 } from '@material-ui/icons'
 import {MainLayout} from '../../layouts/MainLayout'
 import {Link} from 'react-router-dom'
-import Post from '../../components/Post'
 import './ProfilePage.scss'
 
 
 const ProfilePage = () => {
+
     return (
         <MainLayout contentFullWidth hideComments>
             <Paper className="profile-page" elevation={0}>
@@ -53,7 +53,7 @@ const ProfilePage = () => {
             </Paper>
             <div className="profile-content">
                 <div className="profile-content__posts">
-                    <Post/>
+                    {/*<Post/>*/}
                 </div>
                 <Paper style={{width: 300}} className="profile-content__subscribers" elevation={0}>
                     <b>Подписчики</b>

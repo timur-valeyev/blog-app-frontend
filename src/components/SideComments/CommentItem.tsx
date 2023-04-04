@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 interface CommentItemProps {
   user: {
     id: number;
-    fullname: string;
+    fullName: string;
   };
   text: string;
   post: {
@@ -23,7 +23,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({ user, text, post }) =>
           alt="User avatar"
         />
         <Link to={`/profile/${user.id}`}>
-            <b>{user.fullname}</b>
+            <b>{user.fullName}</b>
         </Link>
       </div>
       <p className={styles.text}>{text}</p>

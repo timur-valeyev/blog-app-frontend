@@ -24,7 +24,6 @@ const AsideMenuLeft: React.FC = () => {
         return location.pathname === path ? 'contained' : 'text'
     }
 
-    console.log(location.pathname)
 
     return (
         <div className={styles.menu}>
