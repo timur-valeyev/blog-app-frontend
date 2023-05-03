@@ -24,6 +24,7 @@ export interface IPostState {
 
 export interface IPost {
   title: string
-  content: string
-  imageUrl: any
+  body: string
+  image: any
 }
+

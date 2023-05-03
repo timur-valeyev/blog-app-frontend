@@ -1,25 +1,18 @@
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
 import React from 'react'
-import EditorJS from '@editorjs/editorjs'
 
+interface EditorProps {
+  value: string;
+  onChange: (value: string) => void;
+}
 
-const Editor: React.FC = () => {
-  React.useEffect(() => {
-    const editor = new EditorJS({
-      holder: 'editor',
-      placeholder: 'Введите текст',
-      autofocus: true
-    })
+const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
+  const handleChange = (content: string) => {
+    onChange(content)
+  }
 
-    return () => {
-      editor.isReady.then(() => {
-        editor.destroy()
-      }).catch(e => console.log('Error editor cleanup', e))
-    }
-  }, [])
-
-  return (
-      <div id='editor'></div>
-  )
+  return <ReactQuill value={value} onChange={handleChange} />
 }
 
 export default Editor

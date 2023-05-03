@@ -1,9 +1,10 @@
-import React, {useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Input } from '@material-ui/core'
 import './AddPostForm.scss'
 import MessageIcon from '@material-ui/icons/TextsmsOutlined'
 import { useAppDispatch } from '../../store/hooks'
 import { createPost } from '../../store/slices/postSlice'
+import axios from 'axios'
 import Editor from '../Editor'
 
 interface AddPostFormProps {
@@ -14,40 +15,50 @@ interface AddPostFormProps {
 
 const AddPostForm: React.FC<AddPostFormProps> = () => {
   const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
-  const [image, setImage] = useState<File | null>(null)
-
+  const [body, setBody] = useState<string>('')
+  const [file, setFile] = useState<any>(null)
   const dispatch = useAppDispatch()
+
+  const upload = async () => {
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      const res = await axios.post('http://localhost:8800/posts/upload', formData)
+      return res.data
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value)
   }
 
-  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(e.target.value)
+  const handleBodyChange = (value: string) => {
+    setBody(value)
   }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setImage(e.target.files[0])
+      setFile(e.target.files[0])
     }
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const formData = new FormData()
-    formData.append('title', title)
-    formData.append('content', content)
-
-    if (image) {
-      formData.append('image', image)
+    let imgUrl = ''
+    if (file) imgUrl = await upload()
+    const postData = {
+      title: title,
+      body: body,
+      image: imgUrl
     }
-
-    dispatch(createPost(formData))
+    dispatch(createPost(postData))
+    setFile(null)
   }
-
-
 
   return (
     <div>
@@ -57,8 +68,18 @@ const AddPostForm: React.FC<AddPostFormProps> = () => {
           <label htmlFor='image'>Image:</label>
           <input type='file' id='image' accept='image/*' onChange={handleImageChange} />
         </div>
+        <div className='right'>
+          {file && (
+            <img
+              className='file'
+              src={URL.createObjectURL(file)}
+              height={500}
+              width={600}
+              alt={title} />
+          )}
+        </div>
         <Input className='title' placeholder='Заголовок' defaultValue={title} onChange={handleTitleChange} />
-        <Editor />
+        <Editor value={body} onChange={handleBodyChange} />
         <Button variant='contained' color='primary' type='submit'>
           <MessageIcon className='mr-10' />
           Опубликовать

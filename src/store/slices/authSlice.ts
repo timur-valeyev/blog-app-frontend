@@ -4,7 +4,10 @@ import { instance } from '../../utils/instance'
 
 
 const initialState: IAuthState = {
-  user: {},
+  user: {
+    token: '',
+    user: {}
+  },
   isLoggedIn: false,
   loading: false,
   error: null,
@@ -12,15 +15,26 @@ const initialState: IAuthState = {
 
 export const loginUser = createAsyncThunk(
   'auth/login',
-  async (data: ILoginData, thunkAPI) => {
+  async (data: ILoginData, { rejectWithValue }) => {
     try {
       const user = await instance.post('auth/login', data)
-      console.log(user.data)
+      if (
+        user.data.status === 400 ||
+        user.data.status === 401 ||
+        user.data.status === 500
+      )
+        return
+      sessionStorage.setItem('token', user.data.token)
+      sessionStorage.setItem('name', user.data.user.fullName)
       return user.data
-    } catch (err) {
-      return thunkAPI.rejectWithValue(err)
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message)
+      } else {
+        return rejectWithValue(error.message)
+      }
     }
-  }
+  },
 )
 
 export const registerUser = createAsyncThunk(
