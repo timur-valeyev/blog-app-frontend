@@ -13,6 +13,8 @@ const Home = () => {
         dispatch(fetchPosts())
     }, [dispatch])
 
+    console.log()
+
     return (
         <MainLayout>
             {!loading ? posts.map((post: any) => (

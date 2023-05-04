@@ -22,7 +22,7 @@ export const PostActions: React.FC = () => {
     <ul style={styles}>
       <li>
         <IconButton>
-          <CommentsIcon />
+            <CommentsIcon />
         </IconButton>
       </li>
       <li>

@@ -18,13 +18,27 @@ export interface IRegisterData {
 
 export interface IPostState {
   posts: []
+  post: {}
   loading: boolean,
   error: null | boolean
 }
 
 export interface IPost {
+  id: number
   title: string
   body: string
   image: any
 }
 
+export interface ICommentState {
+  comments: [],
+  loading: boolean,
+  error: null | boolean
+}
+
+export interface IComment {
+  id: number,
+  text: string,
+  post: {}
+  user: {}
+}

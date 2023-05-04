@@ -24,8 +24,7 @@ export const loginUser = createAsyncThunk(
         user.data.status === 500
       )
         return
-      sessionStorage.setItem('token', user.data.token)
-      sessionStorage.setItem('name', user.data.user.fullName)
+      localStorage.setItem('token', user.data.token)
       return user.data
     } catch (error: any) {
       if (error.response && error.response.data.message) {
@@ -65,6 +64,7 @@ const authSlice = createSlice({
         state.isLoggedIn = false
       })
       .addCase(loginUser.fulfilled, (state, action) => {
+        console.log(state, action)
         state.user = action.payload
         state.loading = false
         state.isLoggedIn = true

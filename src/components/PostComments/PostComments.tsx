@@ -1,15 +1,21 @@
-
-import React, {useState} from 'react'
+import React, { useEffect } from 'react'
 import Comment from '../Comment'
 import './PostComments.scss'
 import AddCommentForm from '../AddCommentForm'
-import {Paper, Tabs, Tab, Typography, Divider} from '@material-ui/core'
-import data from '../../data'
+import {Paper, Typography, Divider} from '@material-ui/core'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { fetchComments } from '../../store/slices/commentsSlice'
 
 
-const PostComments = () => {
-    const [activeTab, setActiveTab] = useState(0)
-    const comments = data.comments[activeTab === 0 ? 'popular' : 'new']
+const PostComments = (props: any) => {
+    const {postId} = props
+    const dispatch = useAppDispatch()
+    const comments = useAppSelector(state => state.comments.comments)
+    const postComments = comments.filter((comment:any) =>  comment.post.id === Number(postId))
+
+    useEffect(() => {
+        dispatch(fetchComments())
+    }, [dispatch])
 
     return (
         <Paper elevation={0} className='posts-comments'>
@@ -17,21 +23,11 @@ const PostComments = () => {
                 <Typography variant="h6" className="mb-20">
                     42 комментария
                 </Typography>
-                <Tabs
-                    className='posts-comments__tabs'
-                    value={activeTab}
-                    onChange={(_, newValue) => setActiveTab(newValue)}
-                    indicatorColor="primary"
-                    textColor="primary"
-                >
-                    <Tab label="Популярные"/>
-                    <Tab label="По порядку"/>
-                </Tabs>
                 <Divider/>
-                <AddCommentForm />
+                <AddCommentForm postId={postId}/>
                 <div className='posts-comments__comments'/>
                 {
-                    comments.map(obj => <Comment key={obj.id} user={obj.user} text={obj.text} createdAt={obj.createdAt}/>)
+                    postComments.map((comment: any) => <Comment key={comment.id} {...comment}/>)
                 }
             </div>
         </Paper>

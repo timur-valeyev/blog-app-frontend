@@ -30,8 +30,6 @@ const AddPostForm: React.FC<AddPostFormProps> = () => {
     }
   }
 
-
-
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value)
   }

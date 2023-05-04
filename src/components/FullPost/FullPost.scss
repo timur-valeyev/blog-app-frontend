@@ -1,18 +1,19 @@
 .full-post {
-  margin-top: -20px;
-  padding: 30px 0;
-  margin-bottom: 30px;
+    margin-top: -20px;
+    padding: 30px 0;
+    margin-bottom: 30px;
 
-  &__title {
-    font-weight: 500 !important;
-    margin-bottom: 20px !important;
-    font-size: 36px !important;
-  }
 
-  p {
-    margin-bottom: 15px;
-    font-size: 18px;
-  }
+    &__title {
+      font-weight: 500 !important;
+      margin-bottom: 20px !important;
+      font-size: 36px !important;
+    }
+
+    p {
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
 }
 
 .user-info {

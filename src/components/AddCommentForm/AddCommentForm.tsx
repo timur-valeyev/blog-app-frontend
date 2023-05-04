@@ -1,35 +1,43 @@
 import './AddCommentForm.scss'
-import {Button, Input} from '@material-ui/core'
-import {useState} from 'react'
+import { Button, Input } from '@material-ui/core'
+import React, { useState } from 'react'
+import { useAppDispatch } from '../../store/hooks'
+import { createComment } from '../../store/slices/commentsSlice'
 
-const AddCommentForm = () => {
-    const [clicked, setClicked] = useState(false)
-    const [text, setText] = useState('')
+interface IAddCommentFormProps {
+  postId: string
+}
 
-    const sendComment = () => {
-        setClicked(false)
-        setText('')
-    }
+const AddCommentForm: React.FC <IAddCommentFormProps> = ({postId}) => {
+  const [clicked, setClicked] = useState(false)
+  const [text, setText] = useState('')
+  const dispatch = useAppDispatch()
 
-    return (
-        <div className='add-comment-form'>
-            <Input
-                className="comment-input"
-                placeholder="Введите комментарий..."
-                onFocus={() => setClicked(true)}
-                minRows={clicked ? 5 : 1}
-                value={text}
-                onChange={(event) => setText(event.target.value)}
-                fullWidth
-                multiline
-            />
-            {clicked &&
-                <Button className='send-button' onClick={sendComment} color='primary' variant='contained'>
-                    Отправить
-                </Button>
-            }
-        </div>
-    )
+  const sendComment = () => {
+    setClicked(false)
+    dispatch(createComment({text, postId}))
+    setText('')
+  }
+
+  return (
+    <div className='add-comment-form'>
+      <Input
+        className='comment-input'
+        placeholder='Введите комментарий...'
+        onFocus={() => setClicked(true)}
+        minRows={clicked ? 5 : 1}
+        value={text}
+        onChange={(event) => setText(event.target.value)}
+        fullWidth
+        multiline
+      />
+      {clicked &&
+        <Button className='send-button' onClick={sendComment} color='primary' variant='contained'>
+          Отправить
+        </Button>
+      }
+    </div>
+  )
 }
 
 export default AddCommentForm

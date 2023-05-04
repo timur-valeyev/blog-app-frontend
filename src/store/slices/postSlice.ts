@@ -5,9 +5,25 @@ import {instance} from '../../utils/instance'
 
 const initialState: IPostState = {
     posts: [],
+    post: {},
     loading: false,
     error: null
 }
+
+export const getPost = createAsyncThunk(
+  'posts/getPost',
+  async (id: string, thunkAPI) => {
+      try {
+          const response = await instance.get(`/posts/${id}`)
+          if (response.status !== 200) {
+              throw new Error('Failed to fetch posts')
+          }
+          return response.data
+      } catch (err) {
+          return thunkAPI.rejectWithValue(err)
+      }
+  }
+)
 
 export const fetchPosts = createAsyncThunk(
     'posts/fetch',
@@ -36,12 +52,21 @@ export const createPost = createAsyncThunk(
     }
 )
 
-const authSlice = createSlice({
+const postSlice = createSlice({
     name: 'posts',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder
+          .addCase(getPost.pending, (state) => {
+              state.loading = true
+              state.error = false
+          })
+          .addCase(getPost.fulfilled, (state, action) => {
+              state.post = action.payload
+              state.loading = false
+              state.error = false
+          })
             .addCase(fetchPosts.pending, (state) => {
                 state.loading = true
                 state.error = false
@@ -56,7 +81,6 @@ const authSlice = createSlice({
                 state.error = false
             })
             .addCase(createPost.fulfilled, (state, action) => {
-                console.log(action.payload)
                 state.posts = action.payload
                 state.loading = false
                 state.error = false
@@ -72,4 +96,4 @@ function isError(action: AnyAction) {
     return action.type.endsWith('rejected')
 }
 
-export default authSlice.reducer
+export default postSlice.reducer
