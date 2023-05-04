@@ -1,6 +1,5 @@
 import React from 'react'
-import { Typography, IconButton, MenuItem, Menu } from '@material-ui/core'
-import MoreIcon from '@material-ui/icons/MoreHorizOutlined'
+import { Typography } from '@material-ui/core'
 import styles from './Comment.module.scss'
 
 
@@ -29,9 +28,9 @@ const Comment = (props: any) => {
       <Typography className={styles.text}>
         {text}
       </Typography>
-      <IconButton onClick={handleClick}>
-        <MoreIcon />
-      </IconButton>
+      {/*<IconButton onClick={handleClick}>*/}
+      {/*  <MoreIcon />*/}
+      {/*</IconButton>*/}
       {/*<Menu*/}
       {/*  anchorEl={anchorEl}*/}
       {/*  elevation={2}*/}

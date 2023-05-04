@@ -41,6 +41,7 @@ export const registerUser = createAsyncThunk(
   async (data: IRegisterData, thunkAPI) => {
     try {
       const user = await instance.post('auth/register', data)
+      localStorage.setItem('token', user.data.token)
       return user.data
     } catch (err) {
       return thunkAPI.rejectWithValue(err)
@@ -64,7 +65,6 @@ const authSlice = createSlice({
         state.isLoggedIn = false
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        console.log(state, action)
         state.user = action.payload
         state.loading = false
         state.isLoggedIn = true
