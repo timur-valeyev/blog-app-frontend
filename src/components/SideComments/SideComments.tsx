@@ -25,9 +25,8 @@ export const SideComments = () => {
       <h3 onClick={toggleVisible}>
         Комментарии <ArrowRightIcon />
       </h3>
-      {visible &&
-        comments.map((comment) => (
-          // @ts-ignore
+      {visible && Array.isArray(comments) &&
+        comments.map((comment:any) => (
           <CommentItem key={comment.id} {...comment} />
         ))}
     </div>

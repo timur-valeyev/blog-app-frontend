@@ -10,7 +10,7 @@ const initialState: ICommentState = {
 }
 
 export const fetchComments = createAsyncThunk(
-  'posts/fetchAll',
+  'comments/fetchAll',
   async (_, thunkAPI) => {
     try {
       const response = await instance.get('/comments')
@@ -25,10 +25,22 @@ export const fetchComments = createAsyncThunk(
 )
 
 export const createComment = createAsyncThunk(
-  'posts/createComment',
+  'comments/createComment',
   async (data: any, thunkAPI) => {
     try {
       const posts = await instance.post('/comments', data)
+      return posts.data
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err)
+    }
+  }
+)
+
+export const deleteComment = createAsyncThunk(
+  'comments/deleteComment',
+  async (id: string, thunkAPI) => {
+    try {
+      const posts = await instance.delete(`/comments/${id}`)
       return posts.data
     } catch (err) {
       return thunkAPI.rejectWithValue(err)
@@ -47,6 +59,15 @@ const commentSlice = createSlice({
         state.error = false
       })
       .addCase(fetchComments.fulfilled, (state, action) => {
+        state.comments = action.payload
+        state.loading = false
+        state.error = false
+      })
+      .addCase(deleteComment.pending, (state) => {
+        state.loading = true
+        state.error = false
+      })
+      .addCase(deleteComment.fulfilled, (state, action) => {
         state.comments = action.payload
         state.loading = false
         state.error = false

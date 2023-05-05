@@ -3,6 +3,7 @@ import { Paper, Typography } from '@material-ui/core'
 import './Post.scss'
 import { Link } from 'react-router-dom'
 import { IPost } from '../../types/data'
+import { PostActions } from '../PostActions'
 
 
 const Post: React.FC<IPost> = (props) => {
@@ -22,6 +23,7 @@ const Post: React.FC<IPost> = (props) => {
         width={600}
         alt={title}
       />
+      <PostActions {...props}/>
     </Paper>
   )
 }

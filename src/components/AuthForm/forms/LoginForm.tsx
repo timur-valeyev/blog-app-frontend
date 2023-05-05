@@ -1,47 +1,60 @@
-import React from 'react'
-import { Button } from '@material-ui/core'
-import { useForm, FormProvider } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { LoginFormSchema } from '../../../utils/validations'
-import { FormField } from '../../FormField'
+import React, { useState } from 'react'
+import { Button, TextField } from '@material-ui/core'
 import { loginUser } from '../../../store/slices/authSlice'
 import { useAppDispatch } from '../../../store/hooks'
+import { ILoginData } from '../../../types/data'
 
 interface LoginFormProps {
   openRegisterForm: () => void
 }
 
 const LoginForm = ({ openRegisterForm }: LoginFormProps) => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const dispatch = useAppDispatch()
-  const form = useForm({
-    mode: 'onChange',
-    resolver: yupResolver(LoginFormSchema)
-  })
 
-  const onSubmit = (data: any) => {
-    dispatch(loginUser(data))
+  const handleSubmit = (e: any) => {
+    e.preventDefault()
+    const userData: ILoginData = {
+      email, password
+    }
+    dispatch(loginUser(userData))
   }
 
   return (
-    <FormProvider {...form}>
-      <form className='login-form' onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField name='email' label='почта' type='text' />
-        <FormField name='password' label='пароль' type='password' />
-        <div className='login-form__buttons'>
-          <Button
-            type='submit'
-            color='primary'
-            variant='contained'
-            disabled={!form.formState.isValid}
-          >
-            Войти
-          </Button>
-          <Button onClick={openRegisterForm} color='primary' variant='text'>
-            Регистрация
-          </Button>
-        </div>
-      </form>
-    </FormProvider>
+    <form className='login-form'>
+      <TextField
+        className="mb-20"
+        size="small"
+        name='email' label='почта' type='text'
+        variant="outlined"
+        value={email}
+        onChange={(e: any) => setEmail(e.target.value)}
+        fullWidth
+      />
+      <TextField
+        className="mb-20"
+        size="small"
+        name='password' label='пароль' type='password'
+        variant="outlined"
+        value={password}
+        onChange={(e: any) => setPassword(e.target.value)}
+        fullWidth
+      />
+      <div className='login-form__buttons'>
+        <Button
+          onClick={handleSubmit}
+          type='submit'
+          color='primary'
+          variant='contained'
+        >
+          Войти
+        </Button>
+        <Button onClick={openRegisterForm} color='primary' variant='text'>
+          Регистрация
+        </Button>
+      </div>
+    </form>
   )
 }
 

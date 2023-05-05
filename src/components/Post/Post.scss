@@ -11,4 +11,13 @@
   &__description {
     margin: 10px 0 !important;
   }
+  &__visibility {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    span {
+      font-size: 18px;
+    }
+  }
 }

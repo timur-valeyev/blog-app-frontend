@@ -12,7 +12,7 @@ interface AuthFormProps {
 }
 
 const AuthForm: React.FC<AuthFormProps> = ({ onClose, visible }) => {
-  const [formType, setFormType] = useState<'main' | 'login' | 'register'>('main')
+  const [formType, setFormType] = useState<'main' | 'login' | 'register'>('login')
 
   return (
     <Dialog

@@ -1,12 +1,6 @@
 import React from 'react'
-
-import {
-  Button, Avatar
-} from '@material-ui/core'
-import {
-  SearchOutlined as SearchIcon,
-  AccountCircleOutlined as UserIcon
-} from '@material-ui/icons'
+import { Button, Avatar } from '@material-ui/core'
+import { SearchOutlined as SearchIcon} from '@material-ui/icons'
 import { Link, useNavigate } from 'react-router-dom'
 import AuthForm from '../AuthForm'
 import { useAppSelector } from '../../store/hooks'
@@ -39,7 +33,7 @@ const Header: React.FC = () => {
     <div className='header'>
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         <Link to='/'>
-          <img height={35} className='mr-20' src='/static/img/logo.svg' alt='Logo' />
+          <img height={35} className='mr-20' src='/img/logo.svg' alt='Logo' />
         </Link>
         <div className='header__search-block'>
           <SearchIcon />
@@ -56,26 +50,24 @@ const Header: React.FC = () => {
         {
           isLoggedIn ? (
             <>
-              <span>Привет, {user.fullName} </span>
+              <p>Привет, <span>{user.fullName} </span></p>
               <Link to='/profile/'>
                 <a className='d-flex align-center'>
                   <Avatar
                     className='avatar'
-                    alt='Remy Sharp'
-                    src='https://leonardo.osnova.io/5ffeac9a-a0e5-5be6-98af-659bfaabd2a6/-/scale_crop/108x108/-/format/webp/'
+                    alt={user.fullName}
+                    src={`/upload/avatar/${user.avatar ? user.avatar : 'default-user.png'}`}
                   />
                 </a>
               </Link>
-
-              <div className='login-button' onClick={logoutHandler}>
+              <Button variant='contained' className='pen-button' onClick={logoutHandler}>
                 Выйти
-              </div>
+              </Button>
             </>
           ) : (
-            <div className='login-button' onClick={openAuthModal}>
-              <UserIcon />
+            <Button variant='contained' className='pen-button' onClick={openAuthModal}>
               Войти
-            </div>
+            </Button>
           )
         }
       </div>

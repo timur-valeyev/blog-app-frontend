@@ -1,12 +1,12 @@
 import { Paper, Avatar, Typography, Tabs, Tab } from '@material-ui/core'
 import { MainLayout } from '../../layouts/MainLayout'
-import './ProfilePage.scss'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import React, { useEffect } from 'react'
 import { fetchPosts } from '../../store/slices/postSlice'
 import { fetchComments } from '../../store/slices/commentsSlice'
 import Comment from '../../components/Comment'
 import Post from '../../components/Post'
+import './ProfilePage.scss'
 
 
 const ProfilePage = () => {
@@ -24,25 +24,19 @@ const ProfilePage = () => {
   }, [dispatch])
 
   return (
-    <MainLayout contentFullWidth hideComments>
+    <MainLayout hideComments>
       <Paper className='profile-page' elevation={0}>
         <div className='profile-page__avatar'>
-          <div>
-            <Avatar
-              style={{ width: 120, height: 120, borderRadius: 6 }}
-              src='https://leonardo.osnova.io/5ffeac9a-a0e5-5be6-98af-659bfaabd2a6/-/scale_crop/108x108/-/format/webp/'
-            />
-            <Typography style={{ fontWeight: 'bold', marginTop: '10px' }} className='mt-10' variant='h4'>
-              {user.fullName}
-            </Typography>
-          </div>
+          <Avatar
+            style={{ width: 120, height: 120, borderRadius: 6 }}
+            src={`/upload/avatar/${user.avatar ? user.avatar : 'default-user.png'}`}
+          />
+          <Typography style={{ fontWeight: 'bold', marginTop: '10px' }} className='mt-10' variant='h4'>
+            {user.fullName}
+          </Typography>
         </div>
-        <div className='profile-page__info'>
-
-        </div>
-
+        <div className='profile-page__info'></div>
         <Tabs className='mt-20' value={0} indicatorColor='primary' textColor='primary'>
-
         </Tabs>
         <Tabs
           onChange={(_, newValue) => setActiveTab(newValue)}
@@ -56,20 +50,39 @@ const ProfilePage = () => {
         </Tabs>
 
       </Paper>
-      <div className='profile-content'>
-        <div className='profile-content__posts'>
-          {activeTab === 0 ?
-            userPosts.map((post: any) => <Post key={post.id} {...post} />) :
-            <Paper elevation={0} className='posts-comments'>
-              <div className="container">
-                <div className='posts-comments__comments'/>
-                {
-                  postComments.map((comment: any) => <Comment key={comment.id} {...comment}/>)
-                }
-              </div>
-            </Paper>
-          }
-        </div>
+      <div className='user-activity'>
+        {activeTab === 0 ?
+          <div>
+            {
+              userPosts.length !== 0 ?
+                <div className='container'>
+                  <div className='' />
+                  {
+                    userPosts.map((post: any) => <Post key={post.id} {...post} />)
+                  }
+                </div> :
+                <Paper elevation={0} className='user-activity__paper'>
+                  <h2>Посты не найдены ... </h2>
+                </Paper>
+            }
+          </div>
+          :
+          <>
+            {
+              postComments.length !== 0 ?
+                <div className='container'>
+                  <Paper elevation={0} className='user-activity__paper'>
+                    {
+                      postComments.map((comment: any) => <Comment key={comment.id} {...comment} />)
+                    }
+                  </Paper>
+                </div> :
+                <Paper elevation={0} className='user-activity__paper'>
+                  <h2>Комментарии не найдены ... </h2>
+                </Paper>
+            }
+          </>
+        }
       </div>
     </MainLayout>
   )

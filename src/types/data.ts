@@ -14,6 +14,7 @@ export interface IRegisterData {
   fullName: string
   email: string
   password: string
+  avatar: any
 }
 
 export interface IPostState {
@@ -28,10 +29,11 @@ export interface IPost {
   title: string
   body: string
   image: any
+  views: number
 }
 
 export interface ICommentState {
-  comments: [],
+  comments: any,
   loading: boolean,
   error: null | boolean
 }

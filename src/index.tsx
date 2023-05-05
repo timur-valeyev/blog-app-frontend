@@ -5,17 +5,14 @@ import App from './App'
 import { Provider } from 'react-redux'
 import { persistor, store } from './store/store'
 import { PersistGate } from 'redux-persist/integration/react'
-import { DarkModeContextProvider } from './context/darkModeContext'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 )
 root.render(
-  <DarkModeContextProvider>
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <App />
       </PersistGate>
     </Provider>
-  </DarkModeContextProvider>
 )

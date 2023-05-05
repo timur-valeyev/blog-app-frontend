@@ -1,10 +1,15 @@
 .profile-page {
+  width: 680px;
   padding: 20px 20px 10px 20px;
   margin-bottom: 20px;
 
   &__avatar {
     display:flex;
     justify-content: space-between;
+
+    img, svg {
+      border-radius: 50% !important;
+    }
   }
 
   &__info {
@@ -30,5 +35,15 @@
       gap: 10px;
       margin-top: 10px;
     }
+  }
+}
+.user-activity {
+  &__paper {
+    padding: 20px;
+    width: 680px;
+  }
+
+  h2 {
+    text-align: center;
   }
 }

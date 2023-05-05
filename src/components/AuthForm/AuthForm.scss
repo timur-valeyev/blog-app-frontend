@@ -40,4 +40,13 @@
     display: flex;
     justify-content: space-between;
   }
+
+  &__avatar {
+    width: 120px !important;
+    height: 120px !important;
+  }
+
+  img {
+    border-radius: 50%;
+  }
 }
