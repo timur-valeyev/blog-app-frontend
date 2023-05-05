@@ -1,20 +1,43 @@
-import React from 'react'
-import { Button, Avatar } from '@material-ui/core'
-import { SearchOutlined as SearchIcon} from '@material-ui/icons'
+import React, { useEffect, useState } from 'react'
+import { Button, Avatar, Paper, List, ListItem } from '@material-ui/core'
+import { SearchOutlined as SearchIcon } from '@material-ui/icons'
 import { Link, useNavigate } from 'react-router-dom'
 import AuthForm from '../AuthForm'
 import { useAppSelector } from '../../store/hooks'
 import { useDispatch } from 'react-redux'
 import { logout } from '../../store/slices/authSlice'
+import { searchPost } from '../../store/slices/postSlice'
 import './Header.scss'
 
 
 const Header: React.FC = () => {
-  const [authVisible, setAuthVisible] = React.useState(false)
+  const [authVisible, setAuthVisible] = useState(false)
+  const [searchValue, setSearchValue] = useState('')
+  const [searchResult, setSearchResult] = useState<any>([])
   const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
   const user: any = useAppSelector(state => state.auth.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (authVisible && isLoggedIn) {
+      setAuthVisible(false)
+    }
+  }, [authVisible, isLoggedIn])
+
+  const handleChangeInput = async (e: any) => {
+    setSearchValue(e.target.value)
+    try {
+      //@ts-ignore
+      const result = await dispatch(searchPost(e.target.value))
+
+      if (Array.isArray(result.payload.items)) {
+        setSearchResult(result.payload.items)
+      }
+    } catch (e) {
+      console.warn(e)
+    }
+  }
 
   const openAuthModal = () => {
     setAuthVisible(true)
@@ -37,7 +60,18 @@ const Header: React.FC = () => {
         </Link>
         <div className='header__search-block'>
           <SearchIcon />
-          <input placeholder='Поиск' />
+          <input value={searchValue} onChange={handleChangeInput} placeholder='Поиск' />
+          {searchResult.length > 0 && (
+            <Paper className='search-block__popup'>
+              <List>
+                {searchResult.map((post: any) => (
+                  <Link key={post.id} to={`/posts/${post.id}`}>
+                    <ListItem button>{post.title}</ListItem>
+                  </Link>
+                ))}
+              </List>
+            </Paper>
+          )}
         </div>
         {isLoggedIn &&
           <Link to='/write' {...user}>

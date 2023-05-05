@@ -14,9 +14,10 @@ const Home = () => {
 
   return (
     <MainLayout>
-      {!loading ? posts.map((post: any) => (
-        <Post key={post.id} {...post} />
-      )) : <h2>loading...</h2>}
+      {!loading ?
+        Array.isArray(posts) && posts.map((post: any) => (
+          <Post key={post.id} {...post} />
+        )) : <h2>loading...</h2>}
     </MainLayout>
   )
 }

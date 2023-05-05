@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import Comment from '../Comment'
-import './PostComments.scss'
 import { Paper } from '@material-ui/core'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { fetchComments } from '../../store/slices/commentsSlice'
 import AddCommentForm from '../AddCommentForm'
+import './PostComments.scss'
 
 
 const PostComments = (props: any) => {
@@ -23,8 +23,9 @@ const PostComments = (props: any) => {
         <AddCommentForm postId={postId} />
         <div className='posts-comments__comments' />
         {
-          postComments && postComments.map((comment: any) => <Comment key={comment.id} {...comment} />)
-        }
+          Array.isArray(postComments) && postComments.map((comment: any) => (
+          <Comment key={comment.id} {...comment} />
+        ))}
       </div>
     </Paper>
   )
