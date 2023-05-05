@@ -1,10 +1,14 @@
 import { Avatar, Divider, Paper, Typography } from '@material-ui/core'
-import React from 'react'
+import React, { useEffect } from 'react'
 import './FullPost.scss'
 
 
 const FullPost = (props: any) => {
   const { title, body, image, user } = props
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   return (
     <Paper elevation={0} className='full-post'>
