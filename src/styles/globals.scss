@@ -1,8 +1,28 @@
+html[data-theme='dark'] {
+  --button-text-color: #ffffff;
+  --border: lightgray;
+  --text-color: whitesmoke;
+  --text-span-color: whitesmoke;
+  --background-color-body: #444;
+  --background-color: #292929;
+  --input-text-color: wheat;
+
+}
+
+html[data-theme='light'] {
+  --button-text-color: #252525;
+  --border: rgb(0, 0, 0, 0.1);
+  --text-color: black;
+  --text-span-color: black;
+  --background-color: #f2f2f2;
+  --input-text-color: black;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  background-color: #f2f2f2 !important;
+  background-color: var(--background-color-body) !important;
   font-family: Roboto, 'Helvetica Neue', Helvetica, sans-serif;
 }
 

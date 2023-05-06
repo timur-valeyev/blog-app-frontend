@@ -40,12 +40,13 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ openLoginForm }) => 
     e.preventDefault()
     try {
       let avatar = ''
-      console.log(file)
+
       if (file) avatar = await upload()
+
       const userData = {
         fullName, email, password, avatar
       }
-      console.log(userData)
+
       dispatch(registerUser(userData))
       setErrorMessage('')
       setFile(null)
@@ -83,7 +84,6 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ openLoginForm }) => 
                 variant='contained'
                 color='primary'
                 startIcon={<CloudUploadIcon />}
-                component='span'
               >
                 Выберите файл
               </Button>
@@ -132,7 +132,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ openLoginForm }) => 
           >
             Загеристрироваться
           </Button>
-          <Button onClick={openLoginForm} color='primary' variant='text'>
+          <Button onClick={openLoginForm} variant='text'>
             Войти
           </Button>
         </div>

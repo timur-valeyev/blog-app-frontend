@@ -1,7 +1,6 @@
 import { Dialog, DialogContent, DialogContentText, Typography } from '@material-ui/core'
 import React, { useState } from 'react'
 import './AuthForm.scss'
-import { ArrowBack } from '@material-ui/icons'
 import { MainForm } from './forms/MainForm'
 import LoginForm from './forms/LoginForm'
 import { RegisterForm } from './forms/RegisterForm'
@@ -21,15 +20,10 @@ const AuthForm: React.FC<AuthFormProps> = ({ onClose, visible }) => {
       maxWidth='xs'
       fullWidth
     >
-      <DialogContent>
+      <DialogContent className='auth-form'>
         <DialogContentText>
           <Typography className='title'>
-            {
-              formType === 'main' ? 'Войти в аккаунт' :
-                <p className='title-back' onClick={() => setFormType('main')}>
-                  <ArrowBack /> Назад к авторизации
-                </p>
-            }
+            {formType === 'login' && 'Войти в аккаунт'}
           </Typography>
           <div className='forms'>
             {formType === 'main' && <MainForm openLoginForm={() => setFormType('login')} />}

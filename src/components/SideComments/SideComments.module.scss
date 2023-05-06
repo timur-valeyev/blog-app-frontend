@@ -4,8 +4,8 @@
   position: sticky;
   padding: 20px;
   margin-left: 40px;
-  background-color: white;
-
+  background-color: var(--background-color) !important;
+  color: var(--text-color) !important;
 
   h3 {
     display: flex;
@@ -27,7 +27,7 @@
   width: 100px;
   transform: rotate(-90deg) translateX(-50px);
   transform-origin: right;
-  background-color: transparent;
+  background-color: transparent !important;
   padding: 0;
 
   svg {
@@ -39,7 +39,7 @@
   margin-bottom: 25px;
 
   &:not(:last-of-type) {
-    border-bottom: 1px solid rgb(0, 0, 0, 0.1);
+    border-bottom: 1px solid var(--border);
     padding-bottom: 20px;
   }
 }

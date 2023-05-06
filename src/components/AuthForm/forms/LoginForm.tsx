@@ -50,7 +50,10 @@ const LoginForm = ({ openRegisterForm }: LoginFormProps) => {
         >
           Войти
         </Button>
-        <Button onClick={openRegisterForm} color='primary' variant='text'>
+        <Button
+          onClick={openRegisterForm}
+          variant='text'
+        >
           Регистрация
         </Button>
       </div>

@@ -4,7 +4,8 @@
   width: 100%;
   align-items: center;
   justify-content: space-between;
-  background-color: white !important;
+  background-color: var(--background-color) !important;
+  color: white;
   padding: 0 35px;
   height: 60px;
   margin-bottom: 14px;
@@ -40,6 +41,18 @@
       }
     }
   }
+
+  p, svg {
+    color: var(--text-color) !important;
+  }
+
+  svg {
+    cursor: pointer;
+    &:hover {
+      color: rgba(0, 0, 0, 0.04);
+    }
+  }
+
   span {
     font-weight: bold;
   }

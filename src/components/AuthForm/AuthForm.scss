@@ -1,6 +1,19 @@
+.auth-form {
+  background-color: var(--background-color) !important;
+  color: var(--text-color) !important;
+  transition: color 500ms linear, background-color 500ms linear, span 500ms linear, input 500ms linear;
+
+  span {
+    color: var(--text-color) !important;
+  }
+  input {
+    color: var(--input-text-color) !important;
+  }
+}
+
 .title {
   font-size: 18px !important;
-  color: black !important;
+  color: var(--text-color) !important;
   margin-bottom: 25px !important;
   font-weight: 500 !important;
 }
@@ -29,6 +42,10 @@
     display: flex;
     justify-content: space-between;
   }
+
+  label {
+    color: var(--text-color) !important;
+  }
 }
 
 .register-form {
@@ -44,6 +61,10 @@
   &__avatar {
     width: 120px !important;
     height: 120px !important;
+  }
+
+  label, h6 {
+    color: var(--text-color) !important;
   }
 
   img {

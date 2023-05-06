@@ -1,6 +1,8 @@
 .posts-comments {
   margin-top: 40px;
   padding: 30px;
+  background-color: var(--background-color) !important;
+  color: var(--text-color) !important;
 
   &__tabs {
     margin-top: 20px;

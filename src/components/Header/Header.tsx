@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Avatar, Paper, List, ListItem } from '@material-ui/core'
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
 import { SearchOutlined as SearchIcon } from '@material-ui/icons'
 import { Link, useNavigate } from 'react-router-dom'
 import AuthForm from '../AuthForm'
@@ -7,6 +9,7 @@ import { useAppSelector } from '../../store/hooks'
 import { useDispatch } from 'react-redux'
 import { logout } from '../../store/slices/authSlice'
 import { searchPost } from '../../store/slices/postSlice'
+import { useTheme } from '../../hooks/useTheme'
 import './Header.scss'
 
 
@@ -14,10 +17,18 @@ const Header: React.FC = () => {
   const [authVisible, setAuthVisible] = useState(false)
   const [searchValue, setSearchValue] = useState('')
   const [searchResult, setSearchResult] = useState<any>([])
+  const { theme, setTheme } = useTheme()
   const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
   const user: any = useAppSelector(state => state.auth.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  const handleLightThemeClick = () => {
+    setTheme('light')
+  }
+  const handleDarkThemeClick = () => {
+    setTheme('dark')
+  }
 
   useEffect(() => {
     if (authVisible && isLoggedIn) {
@@ -58,6 +69,11 @@ const Header: React.FC = () => {
         <Link to='/'>
           <img height={35} className='mr-20' src='/img/logo.svg' alt='Logo' />
         </Link>
+        {theme === 'dark' ? (
+          <WbSunnyOutlinedIcon onClick={handleLightThemeClick} />
+        ) : (
+          <DarkModeOutlinedIcon onClick={handleDarkThemeClick} />
+        )}
         <div className='header__search-block'>
           <SearchIcon />
           <input value={searchValue} onChange={handleChangeInput} placeholder='Поиск' />

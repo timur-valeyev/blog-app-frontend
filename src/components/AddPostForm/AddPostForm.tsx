@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Input } from '@material-ui/core'
+import { Button, Input, Typography } from '@material-ui/core'
 import './AddPostForm.scss'
 import MessageIcon from '@material-ui/icons/TextsmsOutlined'
 import { useAppDispatch } from '../../store/hooks'
@@ -7,6 +7,8 @@ import { createPost, fetchPosts } from '../../store/slices/postSlice'
 import axios from 'axios'
 import Editor from '../Editor'
 import { useNavigate } from 'react-router-dom'
+import CloudUploadIcon from '@material-ui/icons/CloudUpload'
+
 
 interface AddPostFormProps {
   title?: string,
@@ -63,13 +65,9 @@ const AddPostForm: React.FC<AddPostFormProps> = () => {
   }
 
   return (
-    <div>
+    <div className='add-post-form'>
       <h1>Создать пост</h1>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor='image'>Image:</label>
-          <input type='file' id='image' accept='image/*' onChange={handleImageChange} />
-        </div>
         <div className='right'>
           {file && (
             <img
@@ -77,9 +75,25 @@ const AddPostForm: React.FC<AddPostFormProps> = () => {
               src={URL.createObjectURL(file)}
               height={500}
               width={600}
-              alt={title} />
+              alt={title}
+            />
           )}
         </div>
+        <Typography variant='subtitle1'>Загрузить аватар</Typography>
+        <label htmlFor='avatar-upload-button'>
+          <div>
+            <Button
+              variant='contained'
+              color='primary'
+              startIcon={<CloudUploadIcon />}
+            >
+              Выберите файл
+            </Button>
+          </div>
+        </label>
+        <input type='file' id='avatar-upload-button' accept='image/*' onChange={handleImageChange}
+               style={{ display: 'none' }} />
+
         <Input className='title' placeholder='Заголовок' defaultValue={title} onChange={handleTitleChange} />
         <Editor value={body} onChange={handleBodyChange} />
         <Button variant='contained' color='primary' type='submit'>

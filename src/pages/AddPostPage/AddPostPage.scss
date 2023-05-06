@@ -1,4 +1,6 @@
 .main-layout-white {
-  background-color: #fff;
   height: 100vh;
+  background-color: var(--background-color-body) !important;
+  color: var(--text-color) !important;
+  transition: color 500ms linear, background-color 500ms linear;
 }

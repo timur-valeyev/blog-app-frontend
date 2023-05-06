@@ -2,6 +2,13 @@
   width: 680px;
   padding: 20px 20px 10px 20px;
   margin-bottom: 20px;
+  background-color: var(--background-color) !important;
+  color: var(--text-color) !important;
+  transition: color 500ms linear, background-color 500ms linear,  span 500ms linear;
+
+  span {
+    color: var(--text-color) !important;
+  }
 
   &__avatar {
     display:flex;
@@ -41,6 +48,16 @@
   &__paper {
     padding: 20px;
     width: 680px;
+    background-color: var(--background-color) !important;
+    color: var(--text-color) !important;
+
+    svg {
+      color: var(--text-color) !important;
+    }
+    li {
+      background-color: var(--background-color) !important;
+      color: var(--text-color) !important;
+    }
   }
 
   h2 {
