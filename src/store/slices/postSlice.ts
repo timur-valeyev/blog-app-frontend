@@ -55,7 +55,6 @@ export const searchPost = createAsyncThunk(
   }
 )
 
-
 export const createPost = createAsyncThunk(
   'posts/createPost',
   async (data: any, thunkAPI) => {

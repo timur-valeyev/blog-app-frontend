@@ -3,9 +3,10 @@ import { Button, Input } from '@material-ui/core'
 import './AddPostForm.scss'
 import MessageIcon from '@material-ui/icons/TextsmsOutlined'
 import { useAppDispatch } from '../../store/hooks'
-import { createPost } from '../../store/slices/postSlice'
+import { createPost, fetchPosts } from '../../store/slices/postSlice'
 import axios from 'axios'
 import Editor from '../Editor'
+import { useNavigate } from 'react-router-dom'
 
 interface AddPostFormProps {
   title?: string,
@@ -18,6 +19,7 @@ const AddPostForm: React.FC<AddPostFormProps> = () => {
   const [body, setBody] = useState<string>('')
   const [file, setFile] = useState<any>(null)
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   const upload = async () => {
     try {
@@ -55,7 +57,9 @@ const AddPostForm: React.FC<AddPostFormProps> = () => {
       image: imgUrl
     }
     dispatch(createPost(postData))
+    dispatch(fetchPosts())
     setFile(null)
+    navigate('/')
   }
 
   return (
