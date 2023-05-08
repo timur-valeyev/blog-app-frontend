@@ -10,11 +10,11 @@ html[data-theme='dark'] {
 }
 
 html[data-theme='light'] {
-  --button-text-color: #252525;
+  --button-text-color: black;
   --border: rgb(0, 0, 0, 0.1);
   --text-color: black;
   --text-span-color: black;
-  --background-color: #f2f2f2;
+  --background-color: #f6f3f3;
   --input-text-color: black;
 }
 
@@ -64,4 +64,8 @@ a {
   background-color: var(--background-color-body) !important;
   color: var(--text-color) !important;
   transition: color 500ms linear, background-color 500ms linear;
+}
+
+.MuiIconButton-root {
+  padding-left: 0 !important;
 }

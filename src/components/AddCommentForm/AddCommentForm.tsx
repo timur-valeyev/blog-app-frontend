@@ -36,7 +36,7 @@ const AddCommentForm: React.FC <IAddCommentFormProps> = ({postId}) => {
         multiline
       />
       {clicked &&
-        <Button className='send-button' onClick={sendComment} color='primary' variant='contained'>
+        <Button className='send-button' onClick={sendComment}  variant='contained'>
           Отправить
         </Button>
       }

@@ -4,6 +4,10 @@
   background-color: var(--background-color) !important;
   color: var(--text-color) !important;
 
+  svg {
+    color: var(--text-color) !important;
+  }
+
   &__tabs {
     margin-top: 20px;
   }
