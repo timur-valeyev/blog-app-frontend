@@ -27,6 +27,7 @@ export interface IPostState {
 export interface IPost {
   id: number
   title: string
+  user: {}
   body: string
   image: any
   views: number

@@ -8,6 +8,7 @@ import axios from 'axios'
 import Editor from '../Editor'
 import { useNavigate } from 'react-router-dom'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
+import { MainLayout } from '../../layouts/MainLayout'
 
 
 interface AddPostFormProps {
@@ -65,43 +66,44 @@ const AddPostForm: React.FC<AddPostFormProps> = () => {
   }
 
   return (
-    <div className='add-post-form'>
-      <h1>Создать пост</h1>
-      <form onSubmit={handleSubmit}>
-        <div className='right'>
-          {file && (
-            <img
-              className='file'
-              src={URL.createObjectURL(file)}
-              height={500}
-              width={600}
-              alt={title}
-            />
-          )}
-        </div>
-        <Typography variant='subtitle1'>Загрузить аватар</Typography>
-        <label htmlFor='avatar-upload-button'>
-          <div>
-            <Button
-              variant='contained'
-              color='primary'
-              startIcon={<CloudUploadIcon />}
-            >
-              Выберите файл
-            </Button>
+    <MainLayout hideMenu hideComments className='main-layout-white'>
+      <div className='add-post-form'>
+        <h1>Создать пост</h1>
+        <form onSubmit={handleSubmit}>
+          <div className='right'>
+            {file && (
+              <img
+                className='file'
+                src={URL.createObjectURL(file)}
+                height={500}
+                width={600}
+                alt={title}
+              />
+            )}
           </div>
-        </label>
-        <input type='file' id='avatar-upload-button' accept='image/*' onChange={handleImageChange}
-               style={{ display: 'none' }} />
-
-        <Input className='title' placeholder='Заголовок' defaultValue={title} onChange={handleTitleChange} />
-        <Editor value={body} onChange={handleBodyChange} />
-        <Button variant='contained' color='primary' type='submit'>
-          <MessageIcon className='mr-10' />
-          Опубликовать
-        </Button>
-      </form>
-    </div>
+          <Typography variant='subtitle1'>Загрузить аватар</Typography>
+          <label htmlFor='avatar-upload-button'>
+            <div>
+              <Button
+                variant='contained'
+                color='primary'
+                startIcon={<CloudUploadIcon />}
+              >
+                Выберите файл
+              </Button>
+            </div>
+          </label>
+          <input type='file' id='avatar-upload-button' accept='image/*' onChange={handleImageChange}
+                 style={{ display: 'none' }} />
+          <Input className='title' placeholder='Заголовок' defaultValue={title} onChange={handleTitleChange} />
+          <Editor value={body} onChange={handleBodyChange} />
+          <Button variant='contained' color='primary' type='submit'>
+            <MessageIcon className='mr-10' />
+            Опубликовать
+          </Button>
+        </form>
+      </div>
+    </MainLayout>
   )
 }
 

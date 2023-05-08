@@ -5,12 +5,13 @@ import { CssBaseline } from '@mui/material'
 import { MuiThemeProvider } from '@material-ui/core'
 import './styles/globals.scss'
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
-import AddPost from './pages/AddPostPage'
 import Header from './components/Header'
 import Home from './pages/HomePage/HomePage'
 import ProfilePage from './pages/ProfilePage'
 import NotFoundPage from './pages/NotFoundPage'
 import PostPage from './pages/PostPage'
+import AddPostForm from './components/AddPostForm'
+import UpdatePostForm from './components/UpdatePostForm'
 
 
 const Layout = () => {
@@ -38,7 +39,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/write',
-        element: <AddPost />
+        element: <AddPostForm />
+      },
+      {
+        path: '/write/:id',
+        element: <UpdatePostForm />
       },
       {
         path: '/profile',

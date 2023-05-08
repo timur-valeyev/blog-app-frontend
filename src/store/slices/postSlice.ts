@@ -67,6 +67,26 @@ export const createPost = createAsyncThunk(
   }
 )
 
+export const updatePost = createAsyncThunk(
+  'posts/updatePost',
+  async ( data:any, thunkAPI) => {
+    try {
+      const updatedData = {
+        title: data.postData.title,
+        body: data.postData.body,
+        image: data.postData.image,
+      }
+
+      const posts = await instance.patch(`/posts/${data.id}`, updatedData)
+
+      return posts.data
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err)
+    }
+  }
+)
+
+
 const postSlice = createSlice({
   name: 'posts',
   initialState,
@@ -97,6 +117,15 @@ const postSlice = createSlice({
       })
       .addCase(createPost.fulfilled, (state, action) => {
         state.posts = action.payload
+        state.loading = false
+        state.error = false
+      })
+      .addCase(updatePost.pending, (state) => {
+        state.loading = true
+        state.error = false
+      })
+      .addCase(updatePost.fulfilled, (state, action) => {
+        state.post = action.payload
         state.loading = false
         state.error = false
       })
