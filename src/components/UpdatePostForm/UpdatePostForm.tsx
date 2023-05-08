@@ -1,5 +1,5 @@
-import React, {  useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useAppDispatch } from '../../store/hooks'
 import { fetchPosts, updatePost } from '../../store/slices/postSlice'
 import { MainLayout } from '../../layouts/MainLayout'
@@ -14,6 +14,8 @@ import './UpdatePostForm.scss'
 const UpdatePostForm = () => {
   const dispatch = useAppDispatch()
   const location = useLocation()
+  const navigate = useNavigate()
+
   const id = location.state && location.state.id
   const title = location.state && location.state.title
   const body = location.state && location.state.body
@@ -38,7 +40,6 @@ const UpdatePostForm = () => {
       console.log(err)
     }
   }
-
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPostTitle(e.target.value)
@@ -66,7 +67,7 @@ const UpdatePostForm = () => {
     const postData = {
       title: postTitle,
       body: postBody,
-      image: imgUrl,
+      image: imgUrl
     }
 
     const updatedPost = await dispatch(updatePost({ id: id, postData }))
@@ -74,10 +75,17 @@ const UpdatePostForm = () => {
       dispatch(fetchPosts())
     }
     setFile(null)
+    navigate('/')
   }
 
   const handleDeleteImage = () => {
-    setOldImage('')
+    if (file) {
+      URL.revokeObjectURL(URL.createObjectURL(file))
+      setFile(null)
+    }
+    if (oldImage) {
+      setOldImage('')
+    }
   }
 
   const handleMouseOver = () => {
@@ -127,8 +135,7 @@ const UpdatePostForm = () => {
           onChange={handleTitleChange}
         />
         <form onSubmit={handleSubmit}>
-          {!image && uploadImageForm()}
-          {oldImage && (
+          {oldImage !== '' || file ? (
             <div
               className='update-post-form__image'
               onMouseOver={handleMouseOver}
@@ -154,6 +161,8 @@ const UpdatePostForm = () => {
                 oldImage && <img src={`/upload/${oldImage}`} alt='post' style={{ width: '100%' }} />
               )}
             </div>
+          ) : (
+            uploadImageForm()
           )}
           <Editor value={postBody} onChange={handleBodyChange} />
           <div className='update-post-form__actions'>

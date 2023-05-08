@@ -16,6 +16,7 @@
   input {
     font-size: 36px;
     font-weight: 600;
+    color: var(--text-color) !important;
   }
 
   button {
@@ -47,5 +48,11 @@
       gap: 10px;
       top: 10px;
     }
+  }
+
+  input {
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--text-color) !important;
   }
 }
