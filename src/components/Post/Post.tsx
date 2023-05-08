@@ -1,18 +1,22 @@
 import React from 'react'
 import { IconButton, Menu, MenuItem, Paper, Typography } from '@material-ui/core'
-import './Post.scss'
 import { Link, useNavigate } from 'react-router-dom'
 import { IPost } from '../../types/data'
 import { PostActions } from '../PostActions'
 import MoreIcon from '@material-ui/icons/MoreHorizOutlined'
-import { useAppSelector } from '../../store/hooks'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { deletePost, fetchPosts } from '../../store/slices/postSlice'
+import './Post.scss'
 
 
-const Post: React.FC<IPost> = (props:any) => {
+const Post: React.FC<IPost> = (props: any) => {
   const { id, title, user, body, image } = props
-  const [anchorEl, setAnchorEl] = React.useState(null)
   const currentUser: any = useAppSelector(state => state.auth.user)
+
+  const [anchorEl, setAnchorEl] = React.useState(null)
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
+
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget)
   }
@@ -21,8 +25,10 @@ const Post: React.FC<IPost> = (props:any) => {
     setAnchorEl(null)
   }
 
-  const handleRemovePost = () => {
-
+  const handleRemovePost = async (e: any) => {
+    e.preventDefault()
+    await dispatch(deletePost(id))
+    dispatch(fetchPosts())
   }
 
   const handleUpdatePost = () => {
@@ -60,7 +66,7 @@ const Post: React.FC<IPost> = (props:any) => {
         width={600}
         alt={title}
       />
-      <PostActions {...props}/>
+      <PostActions {...props} />
     </Paper>
   )
 }

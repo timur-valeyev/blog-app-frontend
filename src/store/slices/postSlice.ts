@@ -86,6 +86,21 @@ export const updatePost = createAsyncThunk(
   }
 )
 
+export const deletePost = createAsyncThunk(
+  'posts/deletePost',
+  async (id: string, thunkAPI) => {
+    try {
+      const response = await instance.delete(`/posts/${id}`)
+      if (response.status !== 200) {
+        throw new Error('Failed to fetch posts')
+      }
+      return response.data
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err)
+    }
+  }
+)
+
 
 const postSlice = createSlice({
   name: 'posts',
@@ -125,6 +140,15 @@ const postSlice = createSlice({
         state.error = false
       })
       .addCase(updatePost.fulfilled, (state, action) => {
+        state.post = action.payload
+        state.loading = false
+        state.error = false
+      })
+      .addCase(deletePost.pending, (state) => {
+        state.loading = true
+        state.error = false
+      })
+      .addCase(deletePost.fulfilled, (state, action) => {
         state.post = action.payload
         state.loading = false
         state.error = false

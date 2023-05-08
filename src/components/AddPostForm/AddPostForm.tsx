@@ -59,8 +59,13 @@ const AddPostForm: React.FC<AddPostFormProps> = () => {
       body: body,
       image: imgUrl
     }
-    dispatch(createPost(postData))
-    dispatch(fetchPosts())
+
+    const createdPost = await dispatch(createPost(postData))
+
+    if (createdPost) {
+      dispatch(fetchPosts())
+    }
+
     setFile(null)
     navigate('/')
   }
