@@ -2,7 +2,7 @@ import './AddCommentForm.scss'
 import { Button, Input } from '@material-ui/core'
 import React, { useState } from 'react'
 import { useAppDispatch } from '../../store/hooks'
-import { createComment } from '../../store/slices/commentsSlice'
+import { createComment, fetchComments } from '../../store/slices/commentsSlice'
 
 interface IAddCommentFormProps {
   postId: string
@@ -13,9 +13,13 @@ const AddCommentForm: React.FC <IAddCommentFormProps> = ({postId}) => {
   const [text, setText] = useState('')
   const dispatch = useAppDispatch()
 
-  const sendComment = () => {
+  const sendComment = async () => {
     setClicked(false)
-    dispatch(createComment({text, postId}))
+
+    const createdComment = await dispatch(createComment({text, postId}))
+    if (createdComment) {
+      dispatch(fetchComments())
+    }
     setText('')
   }
 

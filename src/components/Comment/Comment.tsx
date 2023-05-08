@@ -2,7 +2,7 @@ import React from 'react'
 import { Avatar, IconButton, Menu, MenuItem, Typography } from '@material-ui/core'
 import MoreIcon from '@material-ui/icons/MoreHorizOutlined'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { deleteComment } from '../../store/slices/commentsSlice'
+import { deleteComment, fetchComments } from '../../store/slices/commentsSlice'
 import styles from './Comment.module.scss'
 
 
@@ -20,10 +20,13 @@ const Comment = (props: any) => {
     setAnchorEl(null)
   }
 
-  const handleRemoveComment = () => {
+  const handleRemoveComment = async () => {
     if (window.confirm('Удалить комментарий?')) {
       try {
-        dispatch(deleteComment(id))
+        const removedComment = await dispatch(deleteComment(id))
+        if (removedComment) {
+          dispatch(fetchComments())
+        }
       } catch (err) {
         console.warn('Error remove comment', err)
         alert('Не удалось удалить комментарий')
@@ -32,7 +35,6 @@ const Comment = (props: any) => {
       }
     }
   }
-
 
   return (
     <div className={styles.comment}>

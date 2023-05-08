@@ -27,8 +27,21 @@ const Post: React.FC<IPost> = (props: any) => {
 
   const handleRemovePost = async (e: any) => {
     e.preventDefault()
-    await dispatch(deletePost(id))
-    dispatch(fetchPosts())
+
+    if (window.confirm('Удалить пост?')) {
+      try {
+        const removedPost = await dispatch(deletePost(id))
+        if (removedPost) {
+          dispatch(fetchPosts())
+        }
+      } catch (err) {
+        console.warn('Error remove post', err)
+        alert('Не удалось удалить пост')
+      } finally {
+        handleClose()
+      }
+    }
+
   }
 
   const handleUpdatePost = () => {
