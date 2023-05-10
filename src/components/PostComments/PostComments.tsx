@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
-import Comment from '../Comment'
 import { IconButton, Paper } from '@material-ui/core'
+import { ArrowDropDown, ArrowDropUp } from '@material-ui/icons'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { fetchComments } from '../../store/slices/commentsSlice'
 import AddCommentForm from '../AddCommentForm'
+import Comment from '../Comment'
 import './PostComments.scss'
-import { ArrowDropDown, ArrowDropUp } from '@material-ui/icons'
 
 
 const PostComments = (props: any) => {
@@ -23,8 +23,15 @@ const PostComments = (props: any) => {
     }
   })
 
-  const sortIcon = sortOrder === 'asc' ? <><span>Сначала новые</span> <ArrowDropUp /> </> : <>
-    <span>Сначала старые</span><ArrowDropDown /></>
+  const sortIcon = sortOrder === 'asc' ?
+    <>
+      <span>Сначала новые</span>
+      <ArrowDropUp />
+    </> :
+    <>
+      <span>Сначала старые</span>
+      <ArrowDropDown />
+    </>
 
   useEffect(() => {
     dispatch(fetchComments())
@@ -35,13 +42,16 @@ const PostComments = (props: any) => {
       <div className='container'>
         <AddCommentForm postId={postId} />
         <div className='posts-comments__comments' />
-        <IconButton onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}>
-          {sortIcon}
-        </IconButton>
+        {
+          postComments.length !== 0 &&
+          <IconButton onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}>
+            {sortIcon}
+          </IconButton>
+        }
         {
           Array.isArray(sortedComments) && sortedComments.map((comment: any) => (
-          <Comment key={comment.id} {...comment} />
-        ))}
+            <Comment key={comment.id} {...comment} />
+          ))}
       </div>
     </Paper>
   )

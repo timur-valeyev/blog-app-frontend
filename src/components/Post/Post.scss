@@ -5,8 +5,12 @@
   background-color: var(--background-color) !important;
   color: var(--text-color) !important;
 
-  span, svg {
+  svg {
     color: var(--text-color) !important;
+  }
+
+  button {
+      color: var(--text-color) !important;
   }
 
   &__title {

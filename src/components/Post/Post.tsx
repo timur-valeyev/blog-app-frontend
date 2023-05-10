@@ -6,13 +6,14 @@ import { PostActions } from '../PostActions'
 import MoreIcon from '@material-ui/icons/MoreHorizOutlined'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { deletePost, fetchPosts } from '../../store/slices/postSlice'
+import { formatDate } from '../../types/formatDate'
 import './Post.scss'
 
 
 const Post: React.FC<IPost> = (props: any) => {
-  const { id, title, user, body, image } = props
+  const { id, title, user, body, image, updatedAt } = props
   const currentUser: any = useAppSelector(state => state.auth.user)
-
+  const date = formatDate(new Date(updatedAt))
   const [anchorEl, setAnchorEl] = React.useState(null)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -80,6 +81,7 @@ const Post: React.FC<IPost> = (props: any) => {
         alt={title}
       />
       <PostActions {...props} />
+      <span>Опубликовано: {date}</span>
     </Paper>
   )
 }

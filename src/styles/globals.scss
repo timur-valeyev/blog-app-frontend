@@ -69,3 +69,10 @@ a {
 .MuiIconButton-root {
   padding-left: 0 !important;
 }
+
+.MuiTabs-flexContainer {
+  span {
+    font-weight: bold;
+    color: var(--input-text-color) !important;
+  }
+}
