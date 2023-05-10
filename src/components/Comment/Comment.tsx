@@ -3,14 +3,36 @@ import { Avatar, IconButton, Menu, MenuItem, Typography } from '@material-ui/cor
 import MoreIcon from '@material-ui/icons/MoreHorizOutlined'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { deleteComment, fetchComments } from '../../store/slices/commentsSlice'
+import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict'
+import { ru } from 'date-fns/locale'
 import styles from './Comment.module.scss'
 
 
 const Comment = (props: any) => {
-  const { id, user, text, createdAt } = props
+  const { id, user, text, updatedAt } = props
   const [anchorEl, setAnchorEl] = React.useState(null)
   const dispatch = useAppDispatch()
   const currentUser: any = useAppSelector(state => state.auth.user)
+
+  const formatDate = (date: Date): string => {
+    const options = {
+      addSuffix: true,
+      locale: ru
+    }
+
+    const diff = Date.now() - date.getTime()
+    const time = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+
+    if (diff < 24 * 60 * 60 * 1000) {
+      return `сегодня в ${time}`
+    } else if (diff < 2 * 24 * 60 * 60 * 1000) {
+      return `вчера в ${time}`
+    } else {
+      return `${formatDistanceToNowStrict(date, options)} назад`
+    }
+  }
+
+  const date = formatDate(new Date(updatedAt))
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget)
@@ -45,7 +67,7 @@ const Comment = (props: any) => {
           src={`/upload/avatar/${user.avatar ? user.avatar : 'default-user.png'}`}
         />
         <b>{user.fullName}</b>
-        <span>{createdAt}</span>
+        <span>{date}</span>
       </div>
       <Typography className={styles.text}>
         {text}

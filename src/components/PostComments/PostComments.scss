@@ -4,8 +4,13 @@
   background-color: var(--background-color) !important;
   color: var(--text-color) !important;
 
-  svg {
-    color: var(--text-color) !important;
+  button {
+    font-size: 18px;
+    color: var(--input-text-color) !important;
+
+    &:hover {
+      background-color: transparent;
+    }
   }
 
   &__tabs {
