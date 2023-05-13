@@ -86,7 +86,7 @@ const AddPostForm: React.FC<AddPostFormProps> = () => {
               />
             )}
           </div>
-          <Typography variant='subtitle1'>Загрузить аватар</Typography>
+          <Typography variant='subtitle1'>Загрузить изображение</Typography>
           <label htmlFor='avatar-upload-button'>
             <div>
               <Button

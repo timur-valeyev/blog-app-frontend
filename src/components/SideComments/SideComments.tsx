@@ -39,6 +39,7 @@ export const SideComments = () => {
       <h3 onClick={toggleVisible}>
         Комментарии
       </h3>
+    <div>
       <IconButton onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}>
         {sortIcon}
       </IconButton>
@@ -46,6 +47,7 @@ export const SideComments = () => {
         sortedComments.map((comment: any) => (
           <CommentItem key={comment.id} {...comment} />
         ))}
+    </div>
     </div>
   )
 }

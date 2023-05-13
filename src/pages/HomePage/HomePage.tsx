@@ -45,7 +45,7 @@ const Home = () => {
 
   return (
     <MainLayout>
-      <Paper className='post' elevation={0}>
+      <Paper className='tabs' elevation={0}>
         <Tabs
           onChange={(_, newValue) => setActiveTab(newValue)}
           className='mt-20'
