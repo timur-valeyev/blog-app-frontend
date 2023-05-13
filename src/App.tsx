@@ -50,6 +50,18 @@ const router = createBrowserRouter([
         element: <ProfilePage />
       },
       {
+        path: '/tags',
+        element: <ProfilePage />
+      },
+      {
+        path: '/categories',
+        element: <ProfilePage />
+      },
+      {
+        path: '/users',
+        element: <ProfilePage />
+      },
+      {
         path: '*',
         element: <NotFoundPage />
       }

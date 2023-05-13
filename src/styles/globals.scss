@@ -31,6 +31,9 @@ a {
   text-decoration: none;
 }
 
+ul {
+  list-style-type: none;
+}
 * {
   -webkit-text-size-adjust: 100%;
   box-sizing: border-box;
@@ -83,3 +86,7 @@ a {
   background-color: var(--background-color) !important;
   color: var(--text-color) !important;
 }
+
+ .MuiButton-root:hover {
+   background-color: transparent !important;
+ }
