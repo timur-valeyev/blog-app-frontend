@@ -101,7 +101,7 @@ const Header: React.FC = () => {
           isLoggedIn ? (
             <>
               <p>Привет, <span>{user.fullName} </span></p>
-              <Link to='/profile/'>
+              <Link to={`/profile/${user?.id}`}>
                 <a className='d-flex align-center'>
                   <Avatar
                     className='avatar'
