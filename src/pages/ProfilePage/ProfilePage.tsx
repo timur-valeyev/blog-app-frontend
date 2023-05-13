@@ -6,22 +6,28 @@ import { fetchPosts } from '../../store/slices/postSlice'
 import { fetchComments } from '../../store/slices/commentsSlice'
 import Comment from '../../components/Comment'
 import Post from '../../components/Post'
+import { getUser } from '../../store/slices/usersSlice'
+import { useParams } from 'react-router-dom'
 import './ProfilePage.scss'
 
 
 const ProfilePage = () => {
+  const { id } : any = useParams()
   const [activeTab, setActiveTab] = React.useState(0)
-  const user: any = useAppSelector(state => state.auth.user)
+  const user: any = useAppSelector(state => state.users.user)
   const posts = useAppSelector(state => state.posts.posts)
   const comments = useAppSelector(state => state.comments.comments)
-  const postComments = comments.filter((comment: any) => comment.user.id === Number(user.id))
-  const userPosts = posts.filter((post: any) => post.user.id === Number(user.id))
+  const postComments = comments.filter((comment: any) => comment.user && user && comment.user.id === Number(user.id))
+  const userPosts = posts.filter((post: any) => post.user?.id === Number(user.id))
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(fetchPosts())
-    dispatch(fetchComments())
-  }, [dispatch])
+    if (id && id !== undefined) {
+      dispatch(getUser(id))
+      dispatch(fetchPosts())
+      dispatch(fetchComments())
+    }
+  }, [dispatch, id])
 
   return (
     <MainLayout hideComments>
@@ -29,10 +35,10 @@ const ProfilePage = () => {
         <div className='profile-page__avatar'>
           <Avatar
             style={{ width: 120, height: 120, borderRadius: 6 }}
-            src={`/upload/avatar/${user.avatar ? user.avatar : 'default-user.png'}`}
+            src={`/upload/avatar/${user && user.avatar ? user.avatar : 'default-user.png'}`}
           />
           <Typography style={{ fontWeight: 'bold', marginTop: '10px' }} className='mt-10' variant='h4'>
-            {user.fullName}
+            {user?.fullName}
           </Typography>
         </div>
         <div className='profile-page__info'></div>

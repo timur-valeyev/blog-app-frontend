@@ -11,10 +11,9 @@ import styles from './LeftMenu.module.scss'
 const menu = [
   { text: 'Лента', icon: <WhatshotOutlinedIcon />, path: '/' },
   { text: 'Хештеги', icon: <TagOutlinedIcon />, path: '/tags' },
-  { text: 'Категории', icon: <CategoryOutlinedIcon />, path: '/сategories' },
+  { text: 'Категории', icon: <CategoryOutlinedIcon />, path: '/categories' },
   { text: 'Пользователи', icon: <PeopleAltOutlinedIcon />, path: '/users' }
 ]
-
 
 export const LeftMenu = () => {
 

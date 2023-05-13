@@ -1,9 +1,6 @@
 import React from 'react'
-import './App.css'
-import { theme } from './theme'
 import { CssBaseline } from '@mui/material'
 import { MuiThemeProvider } from '@material-ui/core'
-import './styles/globals.scss'
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
 import Header from './components/Header'
 import Home from './pages/HomePage/HomePage'
@@ -12,6 +9,12 @@ import NotFoundPage from './pages/NotFoundPage'
 import PostPage from './pages/PostPage'
 import AddPostForm from './components/AddPostForm'
 import UpdatePostForm from './components/UpdatePostForm'
+import Tags from './components/Tags'
+import Categories from './components/Categories'
+import Users from './components/Users'
+import './styles/globals.scss'
+import './App.css'
+import { theme } from './theme'
 
 
 const Layout = () => {
@@ -46,20 +49,20 @@ const router = createBrowserRouter([
         element: <UpdatePostForm />
       },
       {
-        path: '/profile',
+        path: '/profile/:id',
         element: <ProfilePage />
       },
       {
         path: '/tags',
-        element: <ProfilePage />
+        element: <Tags />
       },
       {
         path: '/categories',
-        element: <ProfilePage />
+        element: <Categories />
       },
       {
         path: '/users',
-        element: <ProfilePage />
+        element: <Users />
       },
       {
         path: '*',
