@@ -86,7 +86,10 @@ ul {
   background-color: var(--background-color) !important;
   color: var(--text-color) !important;
 }
-
- .MuiButton-root:hover {
-   background-color: transparent !important;
- }
+ //
+ //.MuiButton-root:hover {
+ //  background-color: transparent !important;
+ //}
+.MuiButton-containedPrimary {
+  background-color: white !important;
+}

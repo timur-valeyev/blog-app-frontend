@@ -1,1 +1,15 @@
-
+.categories {
+  display: flex;
+  justify-content: space-between;
+  button {
+    span {
+      color: black;
+    }
+  }
+}
+.categories .MuiButton-containedPrimary {
+  background-color: darkgray;
+  //span {
+  //  color: wheat;
+  //}
+}
