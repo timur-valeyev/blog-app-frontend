@@ -45,14 +45,13 @@ const LoginForm = ({ openRegisterForm }: LoginFormProps) => {
         <Button
           onClick={handleSubmit}
           type='submit'
-          color='primary'
           variant='contained'
         >
           Войти
         </Button>
         <Button
           onClick={openRegisterForm}
-          variant='text'
+          variant='contained'
         >
           Регистрация
         </Button>

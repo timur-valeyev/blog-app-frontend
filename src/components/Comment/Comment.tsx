@@ -3,7 +3,7 @@ import { Avatar, IconButton, Menu, MenuItem, Typography } from '@material-ui/cor
 import MoreIcon from '@material-ui/icons/MoreHorizOutlined'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { deleteComment, fetchComments } from '../../store/slices/commentsSlice'
-import { formatDate } from '../../types/formatDate'
+import { formatDate } from '../../utils/formatDate'
 import styles from './Comment.module.scss'
 
 

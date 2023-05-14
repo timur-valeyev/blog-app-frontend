@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import { registerUser } from '../../../store/slices/authSlice'
 import { useAppDispatch } from '../../../store/hooks'
 import ImageIcon from '@material-ui/icons/Image'
-import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import axios from 'axios'
+import UploadImageForm from '../../UploadImageForm'
 
 interface RegisterFormProps {
   openRegisterForm: () => void
@@ -71,23 +71,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ openLoginForm }) => 
           }
           <Grid item>
             <Typography variant='subtitle1'>Загрузить аватар</Typography>
-            <input
-              accept='image/*'
-              className='input'
-              id='avatar-upload-button'
-              type='file'
-              onChange={handleImageChange}
-              style={{display: "none"}}
-            />
-            <label htmlFor='avatar-upload-button'>
-              <Button
-                variant='contained'
-                color='primary'
-                startIcon={<CloudUploadIcon />}
-              >
-                Выберите файл
-              </Button>
-            </label>
+            <UploadImageForm setFile={setFile}/>
           </Grid>
         </Grid>
         <TextField
@@ -127,12 +111,11 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ openLoginForm }) => 
           <Button
             onClick={handleSubmit}
             type='button'
-            color='primary'
             variant='contained'
           >
             Загеристрироваться
           </Button>
-          <Button onClick={openLoginForm} variant='text'>
+          <Button onClick={openLoginForm} variant='contained'>
             Войти
           </Button>
         </div>

@@ -1,10 +1,13 @@
-import { Avatar, Divider, Paper, Typography } from '@material-ui/core'
 import React, { useEffect } from 'react'
+import { Avatar, Divider, Paper, Typography } from '@material-ui/core'
+import { formatDate } from '../../utils/formatDate'
+import { Link } from 'react-router-dom'
 import './FullPost.scss'
 
 
 const FullPost = (props: any) => {
-  const { title, body, image, user } = props
+  const { title, body, image, user, category, updatedAt } = props
+  const date = updatedAt && formatDate(new Date(updatedAt))
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -23,20 +26,31 @@ const FullPost = (props: any) => {
           {title && title}
         </Typography>
         <div>
+          <Typography variant='h6'>
+            Категория: {category && category}
+          </Typography>
           <Typography>
             {body && <span dangerouslySetInnerHTML={{ __html: body }} />}
           </Typography>
           <Divider />
           <div className='user-info'>
+            <span>
+              Автор:
+            </span>
             <div className='user-info__content'>
-              <Avatar
-                className='avatar'
-                alt={user && user.fullName}
-                src={`/upload/avatar/${user ? user.avatar : 'default-user.png'}`}
-              />
-              <b>{user && user.fullName}</b>
+              <Link to={`/profile/${user?.id}`} className='users-list__link'>
+                <Avatar
+                  className='avatar'
+                  alt={user?.fullName}
+                  src={`/upload/avatar/${user?.avatar ? user.avatar : 'default-user.png'}`}
+                />
+                <span>{user?.fullName}</span>
+              </Link>
             </div>
           </div>
+          <span>
+            Опубликовано: {date}
+          </span>
         </div>
       </div>
     </Paper>

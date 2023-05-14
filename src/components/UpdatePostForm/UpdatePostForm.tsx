@@ -5,9 +5,10 @@ import { fetchPosts, updatePost } from '../../store/slices/postSlice'
 import { MainLayout } from '../../layouts/MainLayout'
 import { Button, Input, Typography } from '@material-ui/core'
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
-import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import Editor from '../Editor'
+import UploadImageForm from '../UploadImageForm'
 import axios from 'axios'
+import CategorySelect from '../CategorySelect'
 import './UpdatePostForm.scss'
 
 
@@ -16,16 +17,16 @@ const UpdatePostForm = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const id = location.state && location.state.id
-  const title = location.state && location.state.title
-  const body = location.state && location.state.body
-  const image = location.state && location.state.image
+  const locationState = location.state || {}
+  const { id, title, category, body, image } = locationState
 
-  const [postTitle, setPostTitle] = useState(title)
-  const [postBody, setPostBody] = useState(body)
-  const [file, setFile] = useState<any>(null)
-  const [oldImage, setOldImage] = useState<string | ''>(image || '')
+  const [postTitle, setPostTitle] = useState(title || '')
+  const [postBody, setPostBody] = useState(body || '')
+  const [postCategories, setPostCategories] = useState(category || null)
+  const [file, setFile] = useState(null)
+  const [oldImage, setOldImage] = useState(image || '')
   const [showActions, setShowActions] = useState(false)
+
 
   const upload = async () => {
     try {
@@ -49,12 +50,6 @@ const UpdatePostForm = () => {
     setPostBody(value)
   }
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0])
-    }
-  }
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -67,6 +62,7 @@ const UpdatePostForm = () => {
     const postData = {
       title: postTitle,
       body: postBody,
+      category: postCategories,
       image: imgUrl
     }
 
@@ -96,30 +92,6 @@ const UpdatePostForm = () => {
     setShowActions(false)
   }
 
-  const uploadImageForm = () => {
-    return (
-      <>
-        <input
-          accept='image/*'
-          id='contained-button-file'
-          multiple
-          type='file'
-          onChange={handleImageChange}
-          style={{ display: 'none' }}
-        />
-        <label htmlFor='contained-button-file'>
-          <Button
-            variant='contained'
-            color='default'
-            startIcon={<CloudUploadIcon />}
-            component='span'
-          >
-            Загрузить изображение
-          </Button>
-        </label>
-      </>
-    )
-  }
 
   return (
     <MainLayout>
@@ -143,7 +115,7 @@ const UpdatePostForm = () => {
             >
               {showActions && (
                 <div className='update-post-form__image-actions'>
-                  {uploadImageForm()}
+                  <UploadImageForm setFile={setFile} />
                   <Button
                     variant='contained'
                     color='default'
@@ -162,8 +134,9 @@ const UpdatePostForm = () => {
               )}
             </div>
           ) : (
-            uploadImageForm()
+            <UploadImageForm setFile={setFile} />
           )}
+          <CategorySelect selectedCategory={postCategories} setSelectedCategory={setPostCategories} />
           <Editor value={postBody} onChange={handleBodyChange} />
           <div className='update-post-form__actions'>
             <Button variant='contained' color='primary' type='submit'>

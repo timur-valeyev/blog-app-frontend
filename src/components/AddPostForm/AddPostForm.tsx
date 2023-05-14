@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
-import { Button, Input, Typography } from '@material-ui/core'
-import './AddPostForm.scss'
+import { Button, Input } from '@material-ui/core'
 import MessageIcon from '@material-ui/icons/TextsmsOutlined'
 import { useAppDispatch } from '../../store/hooks'
 import { createPost, fetchPosts } from '../../store/slices/postSlice'
 import axios from 'axios'
 import Editor from '../Editor'
 import { useNavigate } from 'react-router-dom'
-import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import { MainLayout } from '../../layouts/MainLayout'
+import CategorySelect from '../CategorySelect'
+import UploadImageForm from '../UploadImageForm'
+import './AddPostForm.scss'
 
 
 interface AddPostFormProps {
@@ -20,6 +21,7 @@ interface AddPostFormProps {
 const AddPostForm: React.FC<AddPostFormProps> = () => {
   const [title, setTitle] = useState('')
   const [body, setBody] = useState<string>('')
+  const [selectedCategory, setSelectedCategory] = useState<{ id: number, name: string } | null>(null)
   const [file, setFile] = useState<any>(null)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -43,12 +45,6 @@ const AddPostForm: React.FC<AddPostFormProps> = () => {
     setBody(value)
   }
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0])
-    }
-  }
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -57,7 +53,8 @@ const AddPostForm: React.FC<AddPostFormProps> = () => {
     const postData = {
       title: title,
       body: body,
-      image: imgUrl
+      image: imgUrl,
+      category: selectedCategory?.name || null,
     }
 
     const createdPost = await dispatch(createPost(postData))
@@ -86,21 +83,9 @@ const AddPostForm: React.FC<AddPostFormProps> = () => {
               />
             )}
           </div>
-          <Typography variant='subtitle1'>Загрузить изображение</Typography>
-          <label htmlFor='avatar-upload-button'>
-            <div>
-              <Button
-                variant='contained'
-                color='primary'
-                startIcon={<CloudUploadIcon />}
-              >
-                Выберите файл
-              </Button>
-            </div>
-          </label>
-          <input type='file' id='avatar-upload-button' accept='image/*' onChange={handleImageChange}
-                 style={{ display: 'none' }} />
+          <UploadImageForm setFile={setFile}/>
           <Input className='title' placeholder='Заголовок' defaultValue={title} onChange={handleTitleChange} />
+          <CategorySelect selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}/>
           <Editor value={body} onChange={handleBodyChange} />
           <Button variant='contained' color='primary' type='submit'>
             <MessageIcon className='mr-10' />

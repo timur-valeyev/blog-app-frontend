@@ -3,8 +3,8 @@ import { Button, Paper } from '@material-ui/core'
 import { MainLayout } from '../../layouts/MainLayout'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { fetchPosts } from '../../store/slices/postSlice'
-import './Categories.scss'
 import Post from '../Post'
+import './Categories.scss'
 
 
 const Categories = () => {
@@ -12,7 +12,7 @@ const Categories = () => {
   const dispatch = useAppDispatch()
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
 
-  const categoriesSet = new Set(posts.map((post: any) => post.categories?.name))
+  const categoriesSet = new Set(posts.map((post: any) => post?.category))
   const categoriesList = Array.from(categoriesSet)
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const Categories = () => {
   }
 
   const filteredPosts = selectedCategory
-    ? posts.filter((post: any) => post.categories?.name === selectedCategory)
+    ? posts.filter((post: any) => post?.category === selectedCategory)
     : posts
 
   return (

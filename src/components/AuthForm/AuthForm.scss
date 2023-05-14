@@ -3,9 +3,6 @@
   color: var(--text-color) !important;
   transition: color 500ms linear, background-color 500ms linear, span 500ms linear, input 500ms linear;
 
-  span {
-    color: var(--text-color) !important;
-  }
   input {
     color: var(--input-text-color) !important;
   }

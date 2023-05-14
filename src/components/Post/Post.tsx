@@ -6,12 +6,12 @@ import { PostActions } from '../PostActions'
 import MoreIcon from '@material-ui/icons/MoreHorizOutlined'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { deletePost, fetchPosts } from '../../store/slices/postSlice'
-import { formatDate } from '../../types/formatDate'
+import { formatDate } from '../../utils/formatDate'
 import './Post.scss'
 
 
 const Post: React.FC<IPost> = (props: any) => {
-  const { id, title, user, body, image, updatedAt } = props
+  const { id, title, user, body, image, category, updatedAt } = props
   const currentUser: any = useAppSelector(state => state.auth.user)
   const date = formatDate(new Date(updatedAt))
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -46,7 +46,7 @@ const Post: React.FC<IPost> = (props: any) => {
   }
 
   const handleUpdatePost = () => {
-    navigate(`write/${id}`, { state: { id, title, body, image } })
+    navigate(`write/${id}`, { state: { id, title, body, image, category } })
   }
 
   return (
