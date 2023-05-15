@@ -6,7 +6,7 @@ import './FullPost.scss'
 
 
 const FullPost = (props: any) => {
-  const { title, body, image, user, category, updatedAt } = props
+  const { title, body, image, user, category, tags, updatedAt } = props
   const date = updatedAt && formatDate(new Date(updatedAt))
 
   useEffect(() => {
@@ -28,6 +28,9 @@ const FullPost = (props: any) => {
         <div>
           <Typography variant='h6'>
             Категория: {category && category}
+          </Typography>
+          <Typography variant='h6'>
+            Теги: {tags && tags}
           </Typography>
           <Typography>
             {body && <span dangerouslySetInnerHTML={{ __html: body }} />}

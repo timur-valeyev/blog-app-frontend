@@ -22,6 +22,7 @@ const AddPostForm: React.FC<AddPostFormProps> = () => {
   const [title, setTitle] = useState('')
   const [body, setBody] = useState<string>('')
   const [selectedCategory, setSelectedCategory] = useState<{ id: number, name: string } | null>(null)
+  const [tags, setTags] = useState<string | null>(null)
   const [file, setFile] = useState<any>(null)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -41,6 +42,10 @@ const AddPostForm: React.FC<AddPostFormProps> = () => {
     setTitle(e.target.value)
   }
 
+  const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTags(e.target.value)
+  }
+
   const handleBodyChange = (value: string) => {
     setBody(value)
   }
@@ -55,6 +60,7 @@ const AddPostForm: React.FC<AddPostFormProps> = () => {
       body: body,
       image: imgUrl,
       category: selectedCategory?.name || null,
+      tags: tags
     }
 
     const createdPost = await dispatch(createPost(postData))
@@ -86,6 +92,7 @@ const AddPostForm: React.FC<AddPostFormProps> = () => {
           <UploadImageForm setFile={setFile}/>
           <Input className='title' placeholder='Заголовок' defaultValue={title} onChange={handleTitleChange} />
           <CategorySelect selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}/>
+          <Input className='tags' placeholder='Введите теги' defaultValue={tags} onChange={handleTagsChange} />
           <Editor value={body} onChange={handleBodyChange} />
           <Button variant='contained' color='primary' type='submit'>
             <MessageIcon className='mr-10' />

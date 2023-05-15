@@ -11,7 +11,7 @@ import './Post.scss'
 
 
 const Post: React.FC<IPost> = (props: any) => {
-  const { id, title, user, body, image, category, updatedAt } = props
+  const { id, title, user, body, image, category, tags, updatedAt } = props
   const currentUser: any = useAppSelector(state => state.auth.user)
   const date = formatDate(new Date(updatedAt))
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -46,7 +46,7 @@ const Post: React.FC<IPost> = (props: any) => {
   }
 
   const handleUpdatePost = () => {
-    navigate(`write/${id}`, { state: { id, title, body, image, category } })
+    navigate(`write/${id}`, { state: { id, title, body, image, category, tags } })
   }
 
   return (

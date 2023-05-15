@@ -75,6 +75,8 @@ export const updatePost = createAsyncThunk(
         title: data.postData.title,
         body: data.postData.body,
         image: data.postData.image,
+        category: data.postData.category.name,
+        tags: data.postData.tags
       }
 
       const posts = await instance.patch(`/posts/${data.id}`, updatedData)

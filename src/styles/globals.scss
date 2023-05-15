@@ -6,7 +6,8 @@ html[data-theme='dark'] {
   --background-color-body: #444;
   --background-color: #292929;
   --input-text-color: wheat;
-
+  --tags-bg: #f6f3f3;
+  --tags-color: black;
 }
 
 html[data-theme='light'] {
@@ -16,6 +17,8 @@ html[data-theme='light'] {
   --text-span-color: black;
   --background-color: #f6f3f3;
   --input-text-color: black;
+  --tags-bg: #292929;
+  --tags-color: white;
 }
 
 html,
@@ -95,4 +98,11 @@ ul {
 
 .MuiDivider-root {
   background-color: var(--border) !important;
+}
+
+.MuiChip-colorPrimary {
+  background-color: var(--tags-bg) !important;
+}
+.MuiChip-colorSecondary {
+  background-color: wheat !important;
 }

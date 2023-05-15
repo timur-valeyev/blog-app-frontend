@@ -18,15 +18,16 @@ const UpdatePostForm = () => {
   const navigate = useNavigate()
 
   const locationState = location.state || {}
-  const { id, title, category, body, image } = locationState
+  const { id, title, category, body, image, tags } = locationState
+
 
   const [postTitle, setPostTitle] = useState(title || '')
   const [postBody, setPostBody] = useState(body || '')
+  const [postTags, setPostTags] = useState(tags || '')
   const [postCategories, setPostCategories] = useState(category || null)
   const [file, setFile] = useState(null)
   const [oldImage, setOldImage] = useState(image || '')
   const [showActions, setShowActions] = useState(false)
-
 
   const upload = async () => {
     try {
@@ -50,6 +51,11 @@ const UpdatePostForm = () => {
     setPostBody(value)
   }
 
+  const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPostTags(e.target.value)
+  }
+
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -63,7 +69,8 @@ const UpdatePostForm = () => {
       title: postTitle,
       body: postBody,
       category: postCategories,
-      image: imgUrl
+      image: imgUrl,
+      tags: postTags
     }
 
     const updatedPost = await dispatch(updatePost({ id: id, postData }))
@@ -137,6 +144,12 @@ const UpdatePostForm = () => {
             <UploadImageForm setFile={setFile} />
           )}
           <CategorySelect selectedCategory={postCategories} setSelectedCategory={setPostCategories} />
+          <Input
+            placeholder='Теги'
+            fullWidth
+            value={postTags}
+            onChange={handleTagsChange}
+          />
           <Editor value={postBody} onChange={handleBodyChange} />
           <div className='update-post-form__actions'>
             <Button variant='contained' color='primary' type='submit'>

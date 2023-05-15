@@ -1,0 +1,18 @@
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  span {
+    font-weight: bold;
+    color: var(--tags-color) !important;
+    transition: all 0.2s ease-in-out;
+
+    &:active {
+      transform: scale(1.1);
+    }
+  }
+  svg {
+    color: var(--tags-color) !important;
+  }
+}
