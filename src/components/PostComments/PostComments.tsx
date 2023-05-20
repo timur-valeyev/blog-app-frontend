@@ -12,7 +12,7 @@ const PostComments = (props: any) => {
   const { postId } = props
   const dispatch = useAppDispatch()
   const comments = useAppSelector(state => state.comments.comments)
-  const postComments: any = Array.isArray(comments) && comments.filter((comment: any) => comment.post && comment.post.id === Number(postId))
+  const postComments = Array.isArray(comments) ? comments.filter((comment: any) => comment.post && comment.post.id === Number(postId)) : []
   const [sortOrder, setSortOrder] = React.useState<'asc' | 'desc'>('asc')
 
   const sortedComments: any = postComments.slice().sort((a: any, b: any) => {

@@ -5,54 +5,127 @@ import { useAppDispatch } from '../../../store/hooks'
 import { ILoginData } from '../../../types/data'
 
 interface LoginFormProps {
-  openRegisterForm: () => void
+  openRegisterForm: () => void;
+}
+
+const useFormValidation = () => {
+  const [values, setValues] = useState({
+    email: '',
+    password: ''
+  })
+
+  const [errors, setErrors] = useState({
+    email: '',
+    password: '',
+    loginError: ''
+  })
+
+  const validateForm = () => {
+    let isValid = true
+
+    if (!values.email) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        email: 'Поле обязательно для заполнения'
+      }))
+      isValid = false
+    } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        email: 'Неверный формат электронной почты'
+      }))
+      isValid = false
+    } else {
+      setErrors((prevErrors) => ({ ...prevErrors, email: '' }))
+    }
+
+    if (!values.password) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        password: 'Поле обязательно для заполнения'
+      }))
+      isValid = false
+    } else {
+      setErrors((prevErrors) => ({ ...prevErrors, password: '' }))
+    }
+
+    return isValid
+  }
+
+  return {
+    values,
+    errors,
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+      setValues((prevValues) => ({
+        ...prevValues,
+        [e.target.name]: e.target.value
+      }))
+    },
+    validateForm,
+    setLoginError: (errorMessage: string) => {
+      setErrors((prevErrors) => ({ ...prevErrors, loginError: errorMessage }))
+    }
+  }
 }
 
 const LoginForm = ({ openRegisterForm }: LoginFormProps) => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const dispatch = useAppDispatch()
+  const { values, errors, handleChange, validateForm, setLoginError } =
+    useFormValidation()
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const userData: ILoginData = {
-      email, password
+
+    if (validateForm()) {
+      const userData: ILoginData = {
+        email: values.email,
+        password: values.password
+      }
+
+      try {
+        await dispatch(loginUser(userData))
+      } catch (error) {
+        setLoginError('Неверное имя пользователя или пароль')
+      }
     }
-    dispatch(loginUser(userData))
   }
 
   return (
-    <form className='login-form'>
+    <form className='login-form' onSubmit={handleSubmit}>
       <TextField
-        className="mb-20"
-        size="small"
-        name='email' label='почта' type='text'
-        variant="outlined"
-        value={email}
-        onChange={(e: any) => setEmail(e.target.value)}
+        className='mb-20'
+        size='small'
+        name='email'
+        label='почта'
+        type='text'
+        variant='outlined'
         fullWidth
+        value={values.email}
+        onChange={handleChange}
+        error={Boolean(errors.email)}
+        helperText={errors.email}
       />
       <TextField
-        className="mb-20"
-        size="small"
-        name='password' label='пароль' type='password'
-        variant="outlined"
-        value={password}
-        onChange={(e: any) => setPassword(e.target.value)}
+        className='mb-20'
+        size='small'
+        name='password'
+        label='пароль'
+        type='password'
+        variant='outlined'
         fullWidth
+        value={values.password}
+        onChange={handleChange}
+        error={Boolean(errors.password)}
+        helperText={errors.password}
       />
+      {errors.loginError && (
+        <div style={{ color: 'red' }}>{errors.loginError}</div>
+      )}
       <div className='login-form__buttons'>
-        <Button
-          onClick={handleSubmit}
-          type='submit'
-          variant='contained'
-        >
+        <Button type='submit' variant='contained'>
           Войти
         </Button>
-        <Button
-          onClick={openRegisterForm}
-          variant='contained'
-        >
+        <Button onClick={openRegisterForm} variant='contained'>
           Регистрация
         </Button>
       </div>

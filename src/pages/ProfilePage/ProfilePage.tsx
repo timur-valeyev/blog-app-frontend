@@ -12,17 +12,18 @@ import './ProfilePage.scss'
 
 
 const ProfilePage = () => {
-  const { id } : any = useParams()
+  const params =  useParams()
+  const id = params?.id
   const [activeTab, setActiveTab] = React.useState(0)
   const user: any = useAppSelector(state => state.users.user)
   const posts = useAppSelector(state => state.posts.posts)
   const comments = useAppSelector(state => state.comments.comments)
   const postComments = comments.filter((comment: any) => comment.user && user && comment.user.id === Number(user.id))
-  const userPosts = posts.filter((post: any) => post.user?.id === Number(user.id))
+  const userPosts = posts.filter((post: any) => post.user?.id === Number(user?.id))
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (id && id !== undefined) {
+    if (id) {
       dispatch(getUser(id))
       dispatch(fetchPosts())
       dispatch(fetchComments())

@@ -5,6 +5,12 @@
   color: var(--text-color) !important;
 }
 
+.input-title {
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--text-color) !important;
+}
+
 .title {
   width: 100%;
   margin-bottom: 20px;
@@ -13,11 +19,6 @@
     display: none;
   }
 
-  input {
-    font-size: 36px;
-    font-weight: 600;
-    color: var(--text-color) !important;
-  }
 
   button {
     margin-top: 60px;

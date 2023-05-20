@@ -23,13 +23,15 @@ export const SideComments = () => {
     setVisible(!visible)
   }
 
-  const sortedComments: any = comments.slice().sort((a: any, b: any) => {
-    if (sortOrder === 'desc') {
-      return new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime()
-    } else {
-      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-    }
-  })
+  const sortedComments = Array.isArray(comments)
+    ? comments.slice().sort((a: any, b: any) => {
+      if (sortOrder === 'desc') {
+        return new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime()
+      } else {
+        return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+      }
+    })
+    : []
 
   const sortIcon = sortOrder === 'asc' ? <><span>Сначала новые</span> <ArrowDropUp /> </> : <>
     <span>Сначала старые</span><ArrowDropDown /></>
@@ -39,15 +41,15 @@ export const SideComments = () => {
       <h3 onClick={toggleVisible}>
         Комментарии
       </h3>
-    <div>
-      <IconButton onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}>
-        {sortIcon}
-      </IconButton>
-      {visible && Array.isArray(sortedComments) &&
-        sortedComments.map((comment: any) => (
-          <CommentItem key={comment.id} {...comment} />
-        ))}
-    </div>
+      <div>
+        <IconButton onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}>
+          {sortIcon}
+        </IconButton>
+        {visible && Array.isArray(sortedComments) &&
+          sortedComments.map((comment: any) => (
+            <CommentItem key={comment.id} {...comment} />
+          ))}
+      </div>
     </div>
   )
 }

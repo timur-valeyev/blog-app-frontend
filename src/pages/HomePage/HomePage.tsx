@@ -27,21 +27,24 @@ const Home = () => {
   }
 
   const sortedPosts = useMemo(() => {
-    const sorted = [...posts].sort((a: any, b: any) => {
-      const aViews = a.views
-      const bViews = b.views
+    let sorted: any = []
+    if (Array.isArray(posts)) {
+      sorted = [...posts].sort((a: any, b: any) => {
+        const aViews = a.views
+        const bViews = b.views
 
-      if (activeTab === 0) {
-        return sortOrder === 'asc' ? aViews - bViews : bViews - aViews
-      } else {
-        return sortOrder === 'asc'
-          ? new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-          : new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      }
-    })
-
+        if (activeTab === 0) {
+          return sortOrder === 'asc' ? aViews - bViews : bViews - aViews
+        } else {
+          return sortOrder === 'asc'
+            ? new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+            : new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        }
+      })
+    }
     return sorted
   }, [activeTab, sortOrder, posts])
+
 
   return (
     <MainLayout>
@@ -57,8 +60,8 @@ const Home = () => {
           <Tab label='Новые' onClick={handleNewClick} />
         </Tabs>
       </Paper>
-      {!loading ?
-        Array.isArray(sortedPosts) && sortedPosts.map((post: any) => (
+      {!loading && Array.isArray(sortedPosts) ?
+        sortedPosts.map((post: any) => (
           <Post key={post.id} {...post} />
         )) : <h2>loading...</h2>}
     </MainLayout>

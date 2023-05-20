@@ -107,6 +107,7 @@ const UpdatePostForm = () => {
           Редактировать статью
         </Typography>
         <Input
+          className='input-title'
           placeholder='Заголовок'
           fullWidth
           inputProps={{ 'aria-label': 'post title' }}
