@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Avatar, Paper, List, ListItem } from '@material-ui/core'
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
+import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined'
 import { SearchOutlined as SearchIcon } from '@material-ui/icons'
 import { Link, useNavigate } from 'react-router-dom'
 import AuthForm from '../AuthForm'
 import { useAppSelector } from '../../store/hooks'
 import { useDispatch } from 'react-redux'
 import { logout } from '../../store/slices/authSlice'
-import { searchPost } from '../../store/slices/postSlice'
 import { useTheme } from '../../hooks/useTheme'
 import './Header.scss'
 
@@ -20,6 +19,7 @@ const Header: React.FC = () => {
   const { theme, setTheme } = useTheme()
   const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
   const user: any = useAppSelector(state => state.auth.user)
+  const posts: any = useAppSelector(state => state.posts.posts)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -36,18 +36,20 @@ const Header: React.FC = () => {
     }
   }, [authVisible, isLoggedIn])
 
-  const handleChangeInput = async (e: any) => {
+  const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value)
-    try {
-      //@ts-ignore
-      const result = await dispatch(searchPost(e.target.value))
 
-      if (Array.isArray(result.payload.items)) {
-        setSearchResult(result.payload.items)
-      }
-    } catch (e) {
-      console.warn(e)
-    }
+    const filteredPosts = Array.isArray(posts) && posts.filter((post: any) =>
+      post.title.toLowerCase().includes(e.target.value.toLowerCase()) ||
+      post.body.toLowerCase().includes(e.target.value.toLowerCase())
+    )
+
+    setSearchResult(filteredPosts)
+  }
+
+  const handleSearchItemClick = () => {
+    setSearchValue('')
+    setSearchResult([])
   }
 
   const openAuthModal = () => {
@@ -81,7 +83,7 @@ const Header: React.FC = () => {
             <Paper className='search-block__popup'>
               <List>
                 {searchResult.map((post: any) => (
-                  <Link key={post.id} to={`/posts/${post.id}`}>
+                  <Link key={post.id} to={`/posts/${post.id}`} onClick={handleSearchItemClick}>
                     <ListItem button>{post.title}</ListItem>
                   </Link>
                 ))}

@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Input } from '@material-ui/core'
 import MessageIcon from '@material-ui/icons/TextsmsOutlined'
-import { useAppDispatch } from '../../store/hooks'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { createPost, fetchPosts } from '../../store/slices/postSlice'
 import axios from 'axios'
 import Editor from '../Editor'
@@ -26,6 +26,13 @@ const AddPostForm: React.FC<AddPostFormProps> = () => {
   const [file, setFile] = useState<any>(null)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/')
+    }
+  }, [])
 
   const upload = async () => {
     try {

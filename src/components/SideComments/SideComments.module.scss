@@ -44,7 +44,7 @@
 }
 
 .commentItem {
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 
   &:not(:last-of-type) {
     border-bottom: 1px solid var(--border);
@@ -55,6 +55,7 @@
 .userInfo {
   display: flex;
   align-items: center;
+  gap: 10px;
 }
 
 .text {
