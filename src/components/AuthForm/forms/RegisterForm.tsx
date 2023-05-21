@@ -5,6 +5,7 @@ import { useAppDispatch } from '../../../store/hooks'
 import ImageIcon from '@material-ui/icons/Image'
 import axios from 'axios'
 import UploadImageForm from '../../UploadImageForm'
+import { useFormValidation } from '../../../hooks/useFormValidation'
 
 interface RegisterFormProps {
   openRegisterForm: () => void
@@ -12,13 +13,9 @@ interface RegisterFormProps {
 }
 
 export const RegisterForm: React.FC<RegisterFormProps> = ({ openLoginForm }) => {
-  const [fullName, setFullName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const { values, errors, handleChange, validateForm, setLoginError } = useFormValidation()
   const [file, setFile] = useState<any>(null)
-  const [errorMessage, setErrorMessage] = useState('')
   const dispatch = useAppDispatch()
-
 
   const upload = async () => {
     try {
@@ -30,95 +27,104 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ openLoginForm }) => 
       console.log(err)
     }
   }
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0])
-    }
-  }
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
-    try {
-      let avatar = ''
+    if (validateForm()) {
+      try {
+        let avatar = ''
 
-      if (file) avatar = await upload()
+        if (file) avatar = await upload()
 
-      const userData = {
-        fullName, email, password, avatar
-      }
+        const userData = {
+          fullName: values.fullName,
+          email: values.email,
+          password: values.password,
+          avatar
+        }
 
-      dispatch(registerUser(userData))
-      setErrorMessage('')
-      setFile(null)
-    } catch (err: any) {
-      if (err.response) {
-        setErrorMessage(err.response.data.message)
+        dispatch(registerUser(userData))
+        setLoginError('')
+        setFile(null)
+      } catch (err: any) {
+        if (err.response) {
+          setLoginError(err.response.data.message)
+        }
       }
     }
   }
 
   return (
-      <form className='register-form'>
-        <Grid container spacing={2} alignItems='center'>
-          {
-            !file ?
-              <Grid item>
+    <form className='register-form'>
+      <Grid container spacing={2} alignItems='center'>
+        {
+          !file ?
+            <Grid item>
               <Avatar className='register-form__avatar'>
                 <ImageIcon />
               </Avatar>
             </Grid> :
-              <img className='register-form__avatar' src={URL.createObjectURL(file)} alt='' />
-          }
-          <Grid item>
-            <Typography variant='subtitle1'>Загрузить аватар</Typography>
-            <UploadImageForm setFile={setFile}/>
-          </Grid>
+            <img className='register-form__avatar' src={URL.createObjectURL(file)} alt='' />
+        }
+        <Grid item>
+          <Typography variant='subtitle1'>Загрузить аватар</Typography>
+          <UploadImageForm setFile={setFile} />
         </Grid>
-        <TextField
-          className="mb-20"
-          size="small"
-          label='Фамилия Имя'
-          name='fullName'
-          type='text'
-          variant="outlined"
-          value={fullName}
-          onChange={(e: any) => setFullName(e.target.value)}
-          fullWidth
-        />
-        <TextField
-          className="mb-20"
-          size="small"
-          label='Почта'
-          name='email'
-          type='text'
-          variant="outlined"
-          value={email}
-          onChange={(e: any) => setEmail(e.target.value)}
-          fullWidth
-        />
-        <TextField
-          className="mb-20"
-          size="small"
-          name='password'
-          label='Пароль'
-          type='password'
-          variant="outlined"
-          value={password}
-          onChange={(e: any) => setPassword(e.target.value)}
-          fullWidth
-        />
-        <div className='register-form__buttons'>
-          <Button
-            onClick={handleSubmit}
-            type='button'
-            variant='contained'
-          >
-            Загеристрироваться
-          </Button>
-          <Button onClick={openLoginForm} variant='contained'>
-            Войти
-          </Button>
-        </div>
-      </form>
+      </Grid>
+      <TextField
+        className='mb-20'
+        size='small'
+        label='Фамилия Имя'
+        name='fullName'
+        type='text'
+        variant='outlined'
+        value={values.fullName}
+        error={Boolean(errors.fullName)}
+        helperText={errors.fullName}
+        onChange={handleChange}
+        fullWidth
+      />
+      <TextField
+        className='mb-20'
+        size='small'
+        label='Почта'
+        name='email'
+        type='text'
+        variant='outlined'
+        value={values.email}
+        error={Boolean(errors.email)}
+        helperText={errors.email}
+        onChange={handleChange}
+        fullWidth
+      />
+      <TextField
+        className='mb-20'
+        size='small'
+        name='password'
+        label='Пароль'
+        type='password'
+        variant='outlined'
+        value={values.password}
+        error={Boolean(errors.password)}
+        helperText={errors.password}
+        onChange={handleChange}
+        fullWidth
+      />
+      {errors.loginError && (
+        <div style={{ color: 'red' }}>{errors.loginError}</div>
+      )}
+      <div className='register-form__buttons'>
+        <Button
+          onClick={handleSubmit}
+          type='button'
+          variant='contained'
+        >
+          Загеристрироваться
+        </Button>
+        <Button onClick={openLoginForm} variant='contained'>
+          Войти
+        </Button>
+      </div>
+    </form>
   )
 }

@@ -1,77 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Button, TextField } from '@material-ui/core'
 import { loginUser } from '../../../store/slices/authSlice'
 import { useAppDispatch } from '../../../store/hooks'
 import { ILoginData } from '../../../types/data'
+import { useFormValidation } from '../../../hooks/useFormValidation'
 
 interface LoginFormProps {
   openRegisterForm: () => void;
 }
 
-const useFormValidation = () => {
-  const [values, setValues] = useState({
-    email: '',
-    password: ''
-  })
-
-  const [errors, setErrors] = useState({
-    email: '',
-    password: '',
-    loginError: ''
-  })
-
-  const validateForm = () => {
-    let isValid = true
-
-    if (!values.email) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        email: 'Поле обязательно для заполнения'
-      }))
-      isValid = false
-    } else if (!/\S+@\S+\.\S+/.test(values.email)) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        email: 'Неверный формат электронной почты'
-      }))
-      isValid = false
-    } else {
-      setErrors((prevErrors) => ({ ...prevErrors, email: '' }))
-    }
-
-    if (!values.password) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        password: 'Поле обязательно для заполнения'
-      }))
-      isValid = false
-    } else {
-      setErrors((prevErrors) => ({ ...prevErrors, password: '' }))
-    }
-
-    return isValid
-  }
-
-  return {
-    values,
-    errors,
-    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-      setValues((prevValues) => ({
-        ...prevValues,
-        [e.target.name]: e.target.value
-      }))
-    },
-    validateForm,
-    setLoginError: (errorMessage: string) => {
-      setErrors((prevErrors) => ({ ...prevErrors, loginError: errorMessage }))
-    }
-  }
-}
-
 const LoginForm = ({ openRegisterForm }: LoginFormProps) => {
   const dispatch = useAppDispatch()
-  const { values, errors, handleChange, validateForm, setLoginError } =
-    useFormValidation()
+  const { values, errors, handleChange, validateForm, setLoginError } = useFormValidation()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
