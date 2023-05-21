@@ -23,6 +23,10 @@ const ProfilePage = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
+  useEffect(() => {
     if (id) {
       dispatch(getUser(id))
       dispatch(fetchPosts())

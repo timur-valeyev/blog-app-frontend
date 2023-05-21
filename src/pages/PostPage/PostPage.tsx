@@ -17,7 +17,7 @@ const PostPage = () => {
     if (id) {
       dispatch(getPost(id))
     }
-  }, [dispatch])
+  }, [id, dispatch])
 
   return (
     <MainLayout className='mb-50' contentFullWidth>

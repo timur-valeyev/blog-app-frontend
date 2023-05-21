@@ -8,12 +8,12 @@ interface CommentItemProps {
     id: number;
     avatar: string
     fullName: string;
-  };
+  }
   text: string;
   post: {
     id: number;
     title: string;
-  };
+  }
 }
 
 export const CommentItem: React.FC<CommentItemProps> = ({ user, text, post }) => {

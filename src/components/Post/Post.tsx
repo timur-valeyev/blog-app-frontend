@@ -52,7 +52,7 @@ const Post: React.FC<IPost> = (props: any) => {
   return (
     <Paper elevation={0} className='post'>
       <Typography variant='h5' className='post__title'>
-        <Link to={`posts/${id}`}>{title}</Link>
+        <Link to={`/posts/${id}`}>{title}</Link>
       </Typography>
       {
         currentUser.id === user.id &&
